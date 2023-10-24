@@ -1,0 +1,611 @@
+---
+title: "Semua Materi PML"
+author: "Angga Fathan Rofiqy"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: false
+    lightbox: true
+    gallery: true
+    highlight: tango
+    code_folding: show
+    toc_depth: 3
+    number_sections: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    fig_caption: true
+pkgdown:
+  as_is: true
+---
+
+```{r, include=FALSE, echo=FALSE, warning=FALSE, message = FALSE}
+#                      -=( Install & Load Package Function )=-
+install_load <- function (package1, ...)  {   
+
+   # convert arguments to vector
+   packages <- c(package1, ...)
+
+   # start loop to determine if each package is installed
+   for(package in packages){
+
+       # if package is installed locally, load
+       if(package %in% rownames(installed.packages()))
+          do.call('library', list(package))
+
+       # if package is not installed locally, download, then load
+       else {
+          install.packages(package)
+          do.call("library", list(package))
+       }
+   } 
+}
+```
+
+\newpage
+
+# Materi 1 - Jabriks {.tabset}
+
+## Det, Inv, tr, t, diag
+
+```{r, warning=FALSE, message = FALSE}
+x <- matrix(c(3,2,-1,
+              1,6,3,
+              2,-4,0),nrow=3, byrow=T);x
+```
+
+```{r, warning=FALSE, message = FALSE}
+t(x) #Transpose
+det(x) #Determinan
+install_load('MASS')
+fractions(solve(x)) #Invers
+install_load('psych')
+tr(x) #Teras
+diag(x) #mengambil diagonal matriks
+diag(c(1,2,3)) #Membuat matriks diagonal
+```
+
+## Ortogonal
+
+```{r}
+x <- matrix(c( 1/3, -2/3,  2/3,
+               2/3,  2/3,  1/3,
+              -2/3,  1/3,  2/3),nrow=3, byrow=T);fractions(x)
+```
+
+Ciri ciri : $\mathbf{X}^{-1} = \mathbf{X}^t$ ; $\mathbf{X}^{t}\mathbf{X} = \mathbf{I}$ ; $\mathbf{X}\mathbf{X}^{t} = \mathbf{I}$
+
+```{r}
+fractions(solve(x))
+fractions(t(x))
+t(x) %*% x
+x %*% t(x)
+```
+
+```{r}
+orto <- function(x){
+  if( all(t(x) %*% x == diag(nrow(x))) ){
+    cat("Matriks Ortgonal")
+  } else cat('Bukan Matriks Ortogonal')
+}
+orto(x)
+```
+
+## Rank
+
+```{r}
+qr(x)$rank #pake ini
+rank <- function(X){ #Kalo pake function
+  if (qr(X)$rank == ncol(X)){ 
+      cat("Matriks Model Penuh, dengan rank :", qr(X)$rank)
+  } else {
+      cat("Matriks BUKAN Model Penuh, dengan rank :", qr(X)$rank) 
+  }
+}
+rank(x)
+```
+
+## Eigen
+
+```{r}
+eigen(x)
+```
+
+Atau dengan cara manual. Harus di definisikan dulu fungsinya. Contoh :\
+![](images/Screenshot%202023-10-04%20093952.png){width="569"}
+
+```{r}
+# Definisikan persamaan
+f <- function(x) {
+  return(x^3 - 4*x^2 + 3*x + 1)
+}
+
+# Gunakan fungsi uniroot() untuk mencari akar persamaan dalam rentang tertentu
+result <- uniroot(f, c(-10, 10)); result
+```
+
+Bandingkan dengan
+
+```{r}
+A <- matrix(c(2, 0, 1,
+              0, 1, 1,
+              1, 1, 1), nrow=3, byrow=T)
+eigen(A)
+```
+
+![](images/Screenshot%202023-10-04%20094814.png)
+
+Penjumlahan dari eigen value itu sama dengan teras nya.
+
+```{r}
+sum(eigen(A)$values)
+tr(A)
+```
+
+Perkalian antar eigen value itu sama dengan determinan nya.
+
+```{r}
+prod(eigen(A)$values)
+det(A)
+```
+
+## Leading & Free Variabel
+
+```{r, warning=FALSE, message = FALSE}
+# Misalnya kita memiliki sistem persamaan linear berikut:
+# 2x + 3y + z = 5
+# 4x + 7y + 2z = 10
+# 6x + 10y + 3z = 15
+
+# Membuat matriks augmented dari sistem persamaan di atas
+x <- matrix(c(2, 3, 1, 5, 
+              4, 7, 2, 10, 
+              6, 10, 3, 15), nrow = 3, byrow = TRUE)
+
+lead.free <- function(x){
+  l.var <- NA; f.var <- NA
+  #menghitung bentuk eselon baris dari matriks augmented
+  install_load('pracma')
+  es <- rref(x)[,-ncol(x)]
+  # Mencari leading variable dan free variable
+  for (i in 1:nrow(x)) {
+    pivot <- which(es[i, ] == 1)[1]  #Mencari indeks kolom pertama yang bernilai 1
+    
+    if (!is.na(pivot)) {
+      l.var <- na.omit(c(l.var, pivot)) 
+    } else {
+      f.var <- na.omit(c(1:ncol(es))[-l.var])
+    }
+  }
+  
+  print("Bentuk eselon:")
+  print(fractions(rref(x)))
+  print("Leading Variable:")
+  print(l.var)
+  
+  print("Free Variable:")
+  print(f.var)
+  if(!is.na(all(f.var))) cat(" Karena Memiliki Free Variable,\n",
+                        'Maka Persamaan ini memiliki Solusi tak terbatas')
+}
+lead.free(x)
+```
+
+```{r}
+#Contoh lain 
+x <- matrix(c(1, 1, 1, 1, 6, 
+              1, 0, 1, 1, 4, 
+              1, 0, 1, 1, 2), nrow = 3, byrow = TRUE)
+lead.free(x)
+```
+
+```{r}
+#Contoh lain 
+x <- matrix(c(1, 1, -3,  5, 8, 10, 
+              0, 0,  1, -3, 4, 15, 
+              0, 0,  0,  1, 3, 4,
+              0, 0,  0,  0, 0, 0), nrow = 4, byrow = TRUE)
+lead.free(x) 
+```
+
+```{r}
+#Contoh lain 
+x <- matrix(c(1, 1, -3,  5, 
+              0, 1, -1, 15,
+              0, 0,  1, 12), nrow = 3, byrow = TRUE)
+lead.free(x) 
+```
+
+## Solusi Pertamaan Linier
+
+Referensi : [link](https://cran.r-project.org/web/packages/matlib/vignettes/linear-equations.html)
+
+Misal persamaannya :
+
+\$ 2x + 3y = 84 \$
+
+\$ x - 2y = 2 \$
+
+```{r}
+A <- matrix(c(2, 3, 
+              4, -2), nrow = 2, byrow = TRUE)
+b <- c(8, 2)
+solve(A, b)
+```
+
+```{r, warning=FALSE, message = FALSE}
+A <- matrix(c(2, 3, 
+              4, -2), nrow = 2, byrow = TRUE)
+b <- c(8, 2)
+solusi <- function(A, b=NA){
+  if(missing(b)) {
+    b <- A[,ncol(A)] #Jika tidak ada b, maka ambil dari A
+    A <- A[,-ncol(A)]
+  }
+  n <- ncol(A)
+  install_load('matlib')
+  cat('Persamaan :\n')
+  showEqn(A, b)
+  
+  cat('\nRank Matriks :',R(A),
+      '\nRank Gabung  :', R(cbind(A,b)) )
+  
+  plotEqn(A,b)
+  
+  if(all.equal( R(A), R(cbind(A,b)) )){
+    if(all.equal( R(A), R(cbind(A,b)), n)){
+      cat('\nPersamaan Konsisten dan Solusi Unik\n')
+    } else{
+      cat('\nPersamaan Konsisten dan Solusi Tak Terbatas\n')
+    }
+    Solve(A, b, fractions = TRUE)
+  } else{
+      cat('\nPersamaan Tidak Konsisten (Tidak memiliki Solusi)\n')
+    }
+}
+solusi(A,b)
+```
+
+```{r}
+#Contoh Jika A dan b digabung : 
+A <- matrix(c(2, 3, 8,
+              4, -2, 2), nrow = 2, byrow = TRUE)
+solusi(A)
+```
+
+\newpage
+
+# Materi 2 - Bentuk Kuadratik {.tabset}
+
+## $z=y^tAy$, $\frac{\partial z}{\partial y}$
+
+Ya ini mah kgk ada di r (mungkin).
+
+![](images/Screenshot%202023-09-26%20060049.png){width="407"}
+
+![](images/Screenshot%202023-09-26%20060253.png){width="402"}
+
+## Ragam $y$, $E(z)$
+
+![](images/Screenshot%202023-09-26%20060431.png){width="433"}
+
+![](images/Screenshot%202023-09-26%20060547.png){width="438"}
+
+```{r}
+A <- matrix(c(2, -3, 1,
+              1, 2, 0,
+              -1, 6, 1), nrow=3, byrow=T)
+mu <- c(1,3,2)
+cat("Ragam y :\n")
+V <- diag(rep(4,3)); V
+```
+
+```{r}
+Ey.Ay <- function(A, V, mu){
+  cat('AV :\n')
+  AV = A %*% V; print(AV)
+  cat('\ntr(AV) :\n')
+  print(tr(AV))
+  
+  cat("\nmu` A mu :\n")
+  print(t(mu) %*% A %*% mu)
+  
+  cat('\nE(y`Ay) :\n')
+  E <- tr(AV) + t(mu) %*% A %*% mu; print(E)
+  return(E)
+}
+Ey.Ay(A, V, mu)
+```
+
+\newpage
+
+# Materi 3 - Sebaran Khi Kuadratik {.tabset}
+
+## Definisi
+
+![](images/Screenshot%202023-09-26%20074437.png)
+
+![](images/Screenshot%202023-09-26%20074521.png){width="529"}
+
+## Contoh Soal 1
+
+![](images/Screenshot%202023-09-26%20074814.png){width="532"}
+
+```{r}
+A <- -1/3 * matrix(c(1, 0, -2,
+                     0, -3, 0, 
+                    -2, 0, 1), nrow=3, byrow=T)
+varkov <- matrix(c(1, 0, 2,
+                   0, 1, 0,
+                   2, 0, 1), nrow=3, byrow=T)
+mu <- c(1, -1, 0)
+```
+
+```{r}
+khi.k <- function(A, varkov, mu=NA){
+  cat('Transpose A :\n'); print(fractions(t(A)))
+  if(all(t(A) == A)){
+    cat('-> Matriks A Simetrik\n')
+  } else{
+    cat('-> Matriks A Tidak Simetrik\n')
+  }
+  
+  cat('\nAV = A * varkov :\n')
+  AV <- A %*% varkov;  print(fractions(t(AV)))
+  if(identical(round(AV %*% AV, 10), round(AV, 10))){
+    cat('-> Matriks AV Idempoten (AV * AV = AV)\n\n')
+    
+    if(identical(round(A %*% A, 10), round(A, 10))){
+        cat('-> Matriks A Idempoten (A * A = A)\n\n')
+      } else{
+        cat('-> Matriks A Tidak Idempoten\n\n')
+      }
+  } else{
+    cat('-> Matriks AV Tidak Idempoten\n\n')
+    
+    if(identical(round(A %*% A, 10), round(A, 10))){
+      cat('-> Matriks A Idempoten (A * A = A)\n\n')
+    } else{
+      cat('-> Matriks A Tidak Idempoten\n\n')
+    }
+  }
+  
+  rank(A)
+  
+  if(missing(mu)){
+    cat('\n\nSehingga t(y)Ay : ~ X\u00B2 (', qr(A)$rank, ')')
+  } else {
+    cat('\n\nLambda :\n')
+    lambda <- 1/2 * t(mu) %*% A %*% mu; print(fractions(lambda))
+  cat('\n\nSehingga t(y)Ay : ~ X\u00B2 (',  qr(A)$rank, ";", 
+      print(fractions(lambda)), ")")
+  }
+  
+}
+khi.k(A, varkov, mu)
+```
+
+Sehingga $y'Ay \approx X^2_{(3,1/3)}$
+
+## Contoh Soal 2
+
+![](images/Screenshot%202023-09-26%20082604.png){width="538"}
+
+```{r}
+#Harus set rho, misal rho =0
+rho <- 0
+varkov <- matrix(c(1, rho,
+                   rho, 1), nrow=2, byrow=T)
+A <- matrix(c(1, -1, 
+              -1, 1), nrow=2, byrow=T)
+Aq <- 1/(2*(1-rho)) * A
+khi.k(Aq, varkov)
+```
+
+![](images/Screenshot%202023-09-26%20085120.png){width="587"}
+
+```{r}
+B <- matrix(c(1, 1, 
+              1, 1), nrow=2, byrow=T)
+Bq <- 1/(2*(1-rho)) * B
+khi.k(Bq, varkov)
+```
+
+```{r}
+#Cek saling bebas
+khi.bebas <- function(A, B, varkov){
+  cat('AVB = A * V * B :\n')
+  AVB <- A %*% varkov %*% B; print(AVB)
+  if(all(AVB == matrix(0, nrow(A), ncol(A))) ){
+    cat('\nMatrix A dan B saling bebas')
+  } else{
+    cat('\nMatrix A dan B Tidak saling bebas')
+  }
+}
+khi.bebas(Aq, Bq, varkov)
+```
+
+## Contoh Soal 3
+
+![](images/Screenshot%202023-09-26%20085956.png){width="554"}
+
+```{r}
+A <- 1/6 * matrix(c(1, -2, 1, 
+                   -2, 4, -2,
+                    1, -2, 1), nrow=3, byrow=T)
+varkov <- diag(3)
+khi.k(A, varkov)
+```
+
+## Contoh Soal 4
+
+![](images/Screenshot%202023-09-26%20092215.png){width="527"}
+
+![](images/Screenshot%202023-09-26%20092524.png){width="522"}
+
+```{r}
+#Sigma^2 harus di kasih nilai, misal =0.5
+A <- matrix(c(2, -1, -1,
+              -1, 2, -1,
+              -1, -1, 2), nrow=3, byrow=T) * 1/3
+B <- matrix(c(1, 1, 1,
+              1, 0, -1), nrow=2, byrow=T) * 1/3
+
+mu <- c(3, -2, 1)
+s2 <- 0.5^2
+varkov <- s2 * diag(3)
+As <- A * 1/(s2)
+khi.k(As, varkov, mu)
+```
+
+![](images/Screenshot%202023-09-26%20094358.png){width="484"}
+
+Entah kenapa.
+
+![](images/Screenshot%202023-09-26%20095107.png){width="476"}
+
+```{r}
+Bs <- B * 1/(s2)
+khi.bebas(Bs, As, varkov) #Dibalik jadi BVA
+```
+
+![](images/Screenshot%202023-09-26%20095537.png){width="453"}
+
+```{r}
+B <- matrix(c(1, 1, 1), nrow=1, byrow=T)
+khi.bebas(B, As, varkov)
+```
+
+# Materi 4 - Model Linier Penuh {.tabset}
+
+![](images/Screenshot%202023-10-04%20095506.png){width="536"}
+
+```{r}
+y <- c(18, 30, 48, 50, 65)
+n <- length(y)
+#Matriks X
+X <- cbind(X0 = rep(1, n), 
+           X1 = c(20, 30, 40, 55, 60) )
+```
+
+## Model penuh
+
+Model linier disebut model penuh apabila $r(\mathbf{X}) = k+1$.
+
+```{r}
+if (qr(X)$rank == ncol(X)){ 
+cat("Matriks X Model Penuh, dengan rank :", qr(X)$rank)
+} else {
+cat("Matriks X BUKAN Model Penuh, dengan rank :", qr(X)$rank) 
+}
+```
+
+## Dugaan parameter model
+
+$$
+\hat{\beta} = \mathbf{b} = (\mathbf{X}^t \mathbf{X})^{-1} \mathbf{X}\mathbf{y}
+$$
+
+```{r}
+E <- rnorm(n,0,1) #pembangkitan nilai galat
+b <- solve(t(X) %*% X) %*% t(X) %*% y  #mencari matriks beta = (X'X)^-1*X'y
+b
+```
+
+Dari nilai parameter $\beta$ diatas, didapatkan model
+
+$$
+\hat{Y_{i}}= -0.9598214+1.0526786X_{1} +\epsilon_i
+$$
+
+## Penduga tak bias bagi ragam
+
+$$
+s^2 = \frac{(y-\mathbf{X}\mathbf{b})^t (y-\mathbf{X}\mathbf{b})}{n-p}
+$$
+
+```{r}
+p <- nrow(b) #banyak beta pada model
+s2 <- (t(y-(X %*% b)) %*%( y-(X %*% b)) ) / (n-p) #mencari nilai s^2
+s2
+```
+
+Diperoleh nilai penduga tak bias bagi ragam : $s^2 =35.89732$
+
+# Materi 5 - Ketidakpastian pada Model Berpangkat penuh
+
+# Mater 6 - Selang Kepercayaan Fungsi Linear dan Selang Regional
+
+Formula :
+
+$$
+P[(b-\beta)^t (X^t X) (b-\beta) \le s^2 p F_{p, (n-p)}]= 1-\alpha
+$$
+
+Contoh :
+
+$$\left(
+\begin{bmatrix}
+  \text{b}_0 \\ \text{b}_1 
+\end{bmatrix} -\begin{bmatrix}    \beta_0 \\     \beta_1\end{bmatrix}\right)^t
+\left(\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix}\right)\left(\begin{bmatrix}     \text{b}_0  \\   \text{b}_1  \end{bmatrix} -\begin{bmatrix}      \beta_0 \\   \beta_1\end{bmatrix}\right) \le s^2 p F_{p, (n-p)}
+$$
+
+Perhitugan ini akan mengasilkan :
+
+$$ c_1\beta^2_0 \pm c_2\beta^2_1 \pm c_3 \beta_0 \beta_1 \pm c_4\beta_0 \pm c_5\beta_1 \pm c_6 \le s^2 p F_{p, (n-p)}$$
+
+Dengan $c$ adalah koefisien.
+
+Agar memudahkan perhitungan di R, maka pisah menjadi :\
+$$\left( \begin{bmatrix}   \text{b}_0  & \text{b}_1  \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \left( \begin{bmatrix}  \text{b}_0  \\ \text{b}_1 \end{bmatrix}- \begin{bmatrix}  \beta_0 \\  \beta_1\end{bmatrix} \right) \right)$$
+
+$$  - \left(\begin{bmatrix}  \beta_0  & \beta_1 \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \left( \begin{bmatrix}  \text{b}_0  \\ \text{b}_1 \end{bmatrix}- \begin{bmatrix}  \beta_0 \\  \beta_1\end{bmatrix} \right) \right)\le s^2 p F_{p, (n-p)} $$
+
+Lalu pisah lagi menjadi :
+
+$$\left( \begin{bmatrix}   \text{b}_0  & \text{b}_1  \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \begin{bmatrix}  \text{b}_0  \\ \text{b}_1 \end{bmatrix} \right)$$
+
+$$-\left( \begin{bmatrix}   \text{b}_0  & \text{b}_1  \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \begin{bmatrix}  \beta_0  \\ \beta_1 \end{bmatrix} \right)$$
+
+$$-\left( \begin{bmatrix}   \beta_0  & \beta_1  \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \begin{bmatrix}  \text{b}_0  \\ \text{b}_1 \end{bmatrix} \right) $$
+
+$$+\left( \begin{bmatrix}   \beta_0  & \beta_1  \end{bmatrix}\begin{bmatrix}    \mathbf{X}^t\mathbf{X}_{0,0}  & \mathbf{X}^t\mathbf{X}_{0,1} \\    \mathbf{X}^t\mathbf{X}_{1,0} & \mathbf{X}^t\mathbf{X}_{1,1} \end{bmatrix} \begin{bmatrix}  \beta_0  \\ \beta_1  \end{bmatrix} \right) $$
+
+$$\le s^2 p F_{p, (n-p)}$$ Dapat dilihat bahwa baris pertama akan mengasilkan $c_6$, baris kedua akan dan ketiga akan menghasilkan $c_4$ & $c_5$, terakhir baris keempat akan mengasilkan $c_1$, $c_2$, & $c_3$.
+
+```{r}
+x <- matrix(c(1, 1, 
+              -2, 4), byrow=T, nrow=2);x
+eigen(x)
+```
+
+```{r}
+orto(x)
+
+fractions(solve(x))
+fractions(t(x))
+t(x) %*% x
+x %*% t(x)
+```
+
+```{r}
+mu <- c(1, 2)
+A <- matrix(c(1, -1, 
+              2, 3), nrow=2, byrow=T); A
+tr(A)
+t(mu) %*% A %*% mu
+```
+
+```{r}
+A <- 1/2 * matrix(c(1, -1, 
+                   -1, 1), nrow=2, byrow=T); A
+fractions(1/2 * t(mu) %*% A %*% mu)
+```
+
+```{r}
+A <- matrix(c(1, 1, 
+              1, 1), nrow=2, byrow=T); A
+A %*% A
+```

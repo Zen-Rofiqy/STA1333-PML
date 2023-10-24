@@ -1,0 +1,371 @@
+---
+title: "Tugas Mandiri 2 Pengantar Model Linier"
+author: "Angga Fathan Rofiqy"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: false
+    lightbox: true
+    gallery: true
+    highlight: tango
+    code_folding: show
+    toc_depth: 3
+    number_sections: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    fig_caption: true
+pkgdown:
+  as_is: true
+---
+
+Rpubs : <https://rpubs.com/ZenR_Prog/PML-TM2>
+
+# No 1.
+
+![](images/Screenshot%202023-09-25%20170543.png){width="430"}
+
+### Input data
+
+```{r}
+n <- 10 #10 Rumah tangga
+y <- c(23,7,15,17,23,22,10,14,20,19)
+#Matriks X
+X <- cbind(X0 = rep(1, n), 
+           X1 = c(10,2,4,6,8,7,4,6,7,6), 
+           X2 = c(7,3,2,4,6,5,3,3,4,3) )
+```
+
+Diketahui banyaknya peubah penjelas yakni X1 dan X2, sehingga k=2.
+
+## a. Tunjukan bahwa model tersebut merupakan model penuh.
+
+Model linier disebut model penuh apabila $r(\mathbf{X}) = k+1$, dalam kasus ini $r(\mathbf{X}) = 2+1$, sehingga model dikatakan model penuh apabila rank nya bernilai $3$.
+
+### Lihat rank dari matriks X:
+
+```{r}
+if (qr(X)$rank == ncol(X)){ 
+cat("Matriks X Model Penuh, dengan rank :", qr(X)$rank)
+} else {
+cat("Matriks X BUKAN Model Penuh, dengan rank :", qr(X)$rank) 
+}
+```
+
+Terlihat bahwa Model linier tersebut memiliki rank matriks $\mathbf{X}$ sebesar $3$ atau sebesar $k+1$ sehingga memiliki nilai determinan dari matriks $\mathbf{X}^t\mathbf{X} \ne 0$. Jadi, terbukti bahwa model tersebut **merupakan model penuh.**
+
+## b. Dugalah parameter model tersebut.
+
+### Mencari penduga tak bias bagi $\beta$
+
+```{r}
+E <- rnorm(n,0,1) #pembangkitan nilai galat
+b <- solve(t(X) %*% X) %*% t(X) %*% y  #mencari matriks beta = (X'X)^-1*X'y
+b
+```
+
+Dari nilai parameter $\beta$ diatas, didapatkan model :$$\hat{Y_{i}}= 3.9187279+2.4911661X_{1}-0.4664311X_{2}+ε_i$$
+
+## c. Hitung penduga tak bias bagi ragam
+
+### Mencari penduga tak bias bagi ragam
+
+Dengan formula :
+
+$$
+s^2 = \frac{(y-\mathbf{X}\mathbf{b})^t (y-\mathbf{X}\mathbf{b})}
+{n-p}
+$$
+
+```{r}
+p <- nrow(b) #banyak beta pada model
+s2 <- (t(y-(X %*% b)) %*%( y-(X %*% b)) ) / (n-p) #mencari nilai s^2
+s2
+```
+
+Diperoleh nilai penduga tak bias bagi ragam : $s^2 = 6.355376$.
+
+# No 2.
+
+![](images/Screenshot%202023-09-25%20173041-01.png)
+
+![](images/Screenshot%202023-09-25%20173111-01.png){width="598"}
+
+### Input data
+
+```{r}
+n <- 30 #30 Papan
+
+y  <- c(2622, 22148, 26751, 18036, 96305, 104170, 72594, 49512, 32207, 48218,
+        70453, 47661, 38138, 54045, 14814, 17502, 14007, 19443, 7573, 14191, 
+        9714, 8076, 5304, 10728, 43243, 25319, 28028, 41792, 49499, 25312)
+
+#Matriks X
+X <- cbind(X0 = rep(1, n), 
+           X1 = c(15.0, 14.5, 14.8, 13.6, 25.6, 23.4, 24.4, 23.3, 19.5, 21.2, 
+                  22.8, 21.7, 19.8, 21.3, 9.5, 8.4, 9.8, 11.0, 8.3, 9.9, 
+                  8.6, 6.4, 7.0, 8.2, 17.4, 15.0, 15.2, 16.4, 16.7, 15.4) )
+
+#Matriks X'X
+tX.X <- matrix(c(30, 464.1, 
+                 464.1, 8166.29), nrow = 2)
+
+#Matriks X'X
+tX.X.inv <- matrix(c(0.2758892, -0.0156791, 
+                     -0.0156791, 0.001013517), nrow = 2)
+
+#Matriks X'y
+tX.y <- matrix(c(1017405, 19589339), ncol = 1)
+
+#Penduga ragam s^2
+s2 <- 165242295.59
+```
+
+## a. Dugalah $\beta$
+
+```{r}
+b <- solve(t(X) %*% X) %*% t(X) %*% y #mencari (X'X)^-1*X'y
+b
+```
+
+Dari nilai parameter $\beta$ diatas, didapatkan model :$$\hat{Y_{i}}= -26452.394 + 3902.126 X_{1} + ε_i$$
+
+## b. Tentukan penduga titik untuk pembacaan kekakuan (*stiffness*) rata-rata ketika kepadatan (*density*) papan partikel adalah $10 {lb}/{ft^3}$ . Tentukan selang kepercayaan $95\%$ pada pembacaan rata-rata ini
+
+Dengan formula :
+
+$$
+\mathbf{x_*}^t \mathbf{b} \pm t_{\left(n-p;\frac{\alpha}{2} \right)} s \sqrt{\mathbf{x_*}^t $(\mathbf{X}^t\mathbf{X})^-1 \mathbf{x_*}}
+$$
+
+### Penduga titik rata-rata ketika x = 10
+
+```{r}
+xbaru <- c(1,10)
+xb <- t(xbaru) %*% b; xb
+```
+
+Ini sama saja dengan membuat model linear regresi dan substitusi nilai baru pada matriks $\mathbf{x_*}$.
+
+### Simpangan baku
+
+$$
+s = \sqrt{s^2} = \sqrt{\frac{(y-\mathbf{X}^t\mathbf{b})^t (y-\mathbf{X}^t\mathbf{b})}{n-p}}
+$$
+
+```{r}
+#Ragam 
+p <- nrow(b) #banyak beta pada model
+s <- sqrt( (t(y-(X %*% b)) %*%( y-(X %*% b)) ) / (n-p) )
+cat("Simpangan baku (s) :", s)
+```
+
+### Matriks $(\mathbf{X}^t\mathbf{X})^-1$
+
+```{r}
+tX.X.inv
+```
+
+### Nilai $t_{\left(n-p;\frac{\alpha}{2} \right)}$
+
+Dengan selang Kepercayaan $95\%$ maka $\alpha = 5\%$.
+
+```{r}
+alpha <- 5/100
+t <- qt(1 - alpha/2, n-p)
+cat('t :', t)
+```
+
+### Selang kepercayaan $95\%$ bagi rata-rata
+
+```{r}
+cat(" Selang kepercayaan 95% bagi rata-rata\n",
+    "Batas Bawah :", xb - t *s *sqrt(t(xbaru) %*% tX.X.inv %*% xbaru), "\n",
+    "Batas Atas  :", xb + t *s *sqrt(t(xbaru)%*% tX.X.inv %*% xbaru)
+    )
+```
+
+$$
+\mathbf{x_*}^t \mathbf{b} \pm t_{\left(n-p;\frac{\alpha}{2} \right)} s \sqrt{\mathbf{x_*}^t $(\mathbf{X}^t\mathbf{X})^-1 \mathbf{x_*}}=[5925.224; 19212.51]
+$$
+
+## c. Tentukan penduga titik untuk pembacaan kekakuan (*stiffness*) rata-rata ketika kepadatan (*density*) papan partikel adalah $10 {lb}/{ft^3}$ . Tentukan selang prediksi $95\%$ kekakuan untuk papan seperti itu
+
+Dengan Formula : $$
+\mathbf{x_*}^t \mathbf{b} \pm t_{\left(n-p;\frac{\alpha}{2} \right)} s \sqrt{ 1 + \mathbf{x_*}^t $(\mathbf{X}^t\mathbf{X})^-1 \mathbf{x_*}}
+$$
+
+Sama seperti bagian b, hanya beda di formulanya saja.
+
+### Selang kepercayaan $95\%$ bagi satu amatan
+
+```{r}
+cat(" Selang kepercayaan 95% bagi satu amatan\n",
+    "Batas Bawah :", xb - t *s *sqrt(1 + t(xbaru) %*% tX.X.inv %*% xbaru), "\n",
+    "Batas Atas  :", xb + t *s *sqrt(1 + t(xbaru )%*% tX.X.inv %*% xbaru)
+    )
+```
+
+$$
+\mathbf{x_*}^t \mathbf{b} \pm t_{\left(n-p;\frac{\alpha}{2} \right)} s \sqrt{ 1 + \mathbf{x_*}^t $(\mathbf{X}^t\mathbf{X})^-1 \mathbf{x_*}}
+=[-14587.9; 39725.63]
+$$
+
+## d. Tentukan selang kepercayaan 95% pada kemiringan garis regresi
+
+Dengan formula :
+
+$$
+\beta_1 \pm t_{\left(n-p;\frac{\alpha}{2} \right)} \sqrt{C_{11}}
+$$
+
+### Selang kepercayaan 95% bagi kemiringan garis regresi ($\beta_1$)
+
+```{r}
+cat(" Selang kepercayaan 95% bagi kemiringan garis regresi (b1)\n",
+    "Batas Bawah :", b[2] - t *s *sqrt(tX.X.inv[2,2]), "\n",
+    "Batas Atas  :", b[2] + t *s *sqrt(tX.X.inv[2,2])
+    )
+```
+
+$$
+\beta_1 \pm t_{\left(n-p;\frac{\alpha}{2} \right)} \sqrt{C_{11}} 
+=[3063.84 ; 4740.413]
+$$
+
+## e. Tentukan daerah kepercayaan gabungan $95\%$ pada pasangan parameter ( $\beta_0 , \beta_1$).
+
+$$
+P[(b-\beta)^t (X^t X) (b-\beta) \le s^2 p F_{p, (n-p)}]= 1-\alpha
+$$
+
+```{r}
+cat("Matriks b :\n"); b
+cat("\n\nMatriks X'X :\n"); tX.X
+cat("\n\ns^2      :", s2, 
+    "\np        :", p,
+    "\nF(p,n-p) :", qf(1 - alpha, p, n-p))
+```
+
+$$\left(
+\begin{bmatrix}
+  -26452.394 \\ 3902.126 
+\end{bmatrix} -\begin{bmatrix}    \beta_0 \\     \beta_1\end{bmatrix}\right)^t
+\left(\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix}\right)\left(\begin{bmatrix}      -26452.394 \\   3902.126 \end{bmatrix} -\begin{bmatrix}      \beta_0 \\   \beta_1\end{bmatrix}\right) \le 165242296 \times 2 \times 3.340386
+$$
+
+```{r}
+cat("\ns^2 * p * F(p,n-p), :", s2 *p *qf(1 - alpha, p, n-p))
+```
+
+Perhitugan ini akan mengasilkan :
+
+$$
+c_1\beta^2_0 \pm c_2\beta^2_1 \pm c_3 \beta_0 \beta_1 \pm c_4\beta_0 \pm c_5\beta_1 \pm c_6 \le 1103945956
+$$
+
+Dengan $c$ adalah konstanta.
+
+Agar memudahkan perhitungan di R, maka pisah menjadi :\
+$$\left(
+\begin{bmatrix}
+  -26452.394  & 3902.126 
+\end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \left( \begin{bmatrix}  -26452.394  \\ 3902.126 \end{bmatrix}- \begin{bmatrix}  \beta_0 \\  \beta_1\end{bmatrix} \right) \right)$$
+
+$$
+ - \left(\begin{bmatrix}  \beta_0  & \beta_1 \end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \left( \begin{bmatrix}  -26452.394  \\ 3902.126 \end{bmatrix}- \begin{bmatrix}  \beta_0 \\  \beta_1\end{bmatrix} \right) \right)\le 1103945956
+$$
+
+Lalu pisah lagi menjadi :
+
+$$\left(
+\begin{bmatrix}
+  -26452.394  & 3902.126 
+\end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \begin{bmatrix}  -26452.394  \\ 3902.126 \end{bmatrix} \right)$$
+
+$$-\left(
+\begin{bmatrix}
+  -26452.394  & 3902.126 
+\end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \begin{bmatrix}  \beta_0  \\ \beta_1 \end{bmatrix} \right)$$
+
+$$-\left(
+\begin{bmatrix}
+  \beta_0  & \beta_1 
+\end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \begin{bmatrix}  -26452.394  \\ 3902.126 \end{bmatrix} \right)
+$$
+
+$$+\left(
+\begin{bmatrix}
+  \beta_0  & \beta_1 
+\end{bmatrix}\begin{bmatrix}    30 & 464.10 \\    464.1 & 8166.29\end{bmatrix} \begin{bmatrix}  \beta_0  \\ \beta_1  \end{bmatrix} \right)
+$$
+
+$$\le 1103945956$$ Dapat dilihat bahwa baris pertama akan mengasilkan $c_6$, baris kedua akan dan ketiga akan menghasilkan $c_4$ & $c_5$, terakhir baris keempat akan mengasilkan $c_1$, $c_2$, & $c_3$.
+
+```{r}
+cat(  "c6      :", t(b) %*% tX.X %*% b, 
+    "\nc4 & c5 :", -(t(b) %*% tX.X) -t((tX.X %*% b)),
+    "\nc1      :", tX.X[1],
+    "\nc2      :", tX.X[4],
+    "\nc3      :", tX.X[2] + tX.X[3] )
+```
+
+$$
+c_1\beta^2_0 \pm c_2\beta^2_1 \pm c_3 \beta_0 \beta_1 \pm c_4\beta_0 \pm c_5\beta_1 \pm c_6 \le 1103945956
+$$
+
+Sehingga diperoleh :
+
+$$
+30\beta^2_0 + 8166.29\beta^2_1 + 928.2 \beta_0 \beta_1  -2034810\beta_0 -39178678\beta_1 + 49527277168 \le 1103945956
+$$
+
+```{r}
+49527277168 - 1103945956
+```
+
+Hasil Akhirnya adalah :
+
+$$
+30\beta^2_0 + 8166.29\beta^2_1 + 928.2 \beta_0 \beta_1  -2034810\beta_0 -39178678\beta_1 + 48423331212 \le 0
+$$
+
+```{r fig.height = 9, fig.width = 16, fig.align = "center", message = FALSE, warning=FALSE}
+# Membuat fungsi dari ketidaksetaraan
+f <- function(x, y) return(30 * x^2 + 8166.29 * y^2 + 
+                           928.2 * x * y - 2034810 * x - 
+                           39178678 * y + 48423331212)
+
+# Membuat grid untuk x dan y
+x <- seq(-44000, -9000, length.out = 500)  # Rentang x dengan 500 titik
+y <- seq(2800, 5000, length.out = 500)    # Rentang y dengan 500 titik
+z <- outer(x, y, Vectorize(f))  # Menghitung nilai ketidaksetaraan
+
+# Membuat plot kontur
+contour(x, y, z, levels = 0, drawlabels = FALSE, xlim = c(-44000, -9000), 
+        ylim = c(2800, 5000), col = 'purple3')
+```
+
+Atau dapat seperti ini, namun tidak terlihat kontinu karena butuh banyak data.
+
+```{r fig.height = 9, fig.width = 16, fig.align = "center", message = FALSE, warning=FALSE}
+# Memuat pustaka ggplot2
+library(ggplot2)
+
+# Membuat data frame dengan berbagai nilai x dan y
+x <- seq(-44000, -9000, by = 100)  # Rentang x
+y <- seq(2800, 5000, by = 100)    # Rentang y
+data <- expand.grid(x = x, y = y)
+
+# Menghitung nilai di sebelah kiri ketidaksetaraan
+data$inequality_value <- 30 * data$x^2 + 8166.29 * data$y^2 + 928.2 * data$x * data$y - 2034810 * data$x - 39178678 * data$y + 48423331212
+
+# Membuat plot daerah yang memenuhi ketidaksetaraan
+ggplot(data, aes(x = x, y = y)) +
+  geom_tile(aes(fill = inequality_value <= 0), color = "white") +
+  scale_fill_manual(values = c("TRUE" = "purple3", "FALSE" = "white")) +
+  theme_minimal(base_size = 25) +
+  labs(x = expression(beta[0]), y = expression(beta[1])) +
+  theme(legend.position = "none")
+```

@@ -7,4 +7,4 @@ Mata kuliah ini memberikan dasar-dasar konsep model linier yang umum digunakan d
 `Semester: 5`
   
 #### Mata Kuliah Prasyarat:  
-[`STA1231 - Analisis Regresi`](https://krs.ipb.ac.id/mk/167366)https://krs.ipb.ac.id/mk/167366 
+[`STA1231 - Analisis Regresi`](https://krs.ipb.ac.id/mk/167366)

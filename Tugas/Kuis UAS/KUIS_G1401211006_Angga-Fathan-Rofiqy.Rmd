@@ -331,11 +331,71 @@ Sedangkan $F_{(1;4)0.05} = 7.708647$ yang lebih besar dari $F_{hit}$.
 
 Karena $F_{hit} < F_{(1;4)0.05}$, maka tolak $H_0$. Artinya Tidak cukup bukti untuk menyatakan bahwa terdapat pengaruh minimal satu dari kedua mesin terhadap hasil produksi pada taraf nyata 5%.
 
-Suatu Model Linier
+# Soal no 2
 
-$y_{ij} = \mu + \tau_i + \varepsilon{ij}$ dimana $i$ = 1, 2 dan $j$ = 1,2.
+Suatu percobaan bertujuan untuk mengetahui pengaruh dosis fumigant terhadap daya kecambah benih kacang hijau. **Dosis** fumigant yang diberikan ada **dua**: $32 gr/m^3$ dan $64 gr/m^3$ dengan **3 ulangan**. Data yang diperoleh sebagai berikut:
 
-Misalkan $\mathbf{X}'\mathbf{y} = \begin{pmatrix} 5 & 3 & 2 \end{pmatrix}'$
+![](images/Screenshot 2023-11-29 055507.png)
+
+## Point (a)
+
+> Jika rancangan yang digunakan adalah RAL, tuliskan model liner dalam bentuk matriks besera keterangannya. Tunjukkan cara memperolehnya.
+
+**Model dalam bentuk matriks**
+
+$$
+y = \mathbf{X}\beta + \varepsilon
+$$
+
+$$
+\begin{bmatrix} y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{23} \\ y_{23} \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
+$$
+
+$$
+\begin{bmatrix} 90 \\ 88 \\ 92 \\ 90 \\ 80 \\ 78 \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
+$$
+
+Dimana :
+
+-   $y$ : vektor respons
+
+-   $\mathbf{X}$ : matriks rancangan
+
+-   $\beta$ : vektor parameter
+
+-   $\varepsilon$ : vektor galat
+
+**Model linier**
+
+$$ y_{ij} = \mu + \tau_i + \varepsilon_{ij} \text{ } ; \text{ } i = 1, 2 \text{ dan } j=1,2,3 $$
+
+Dimana :
+
+-   $y_{ij}$ : respons perlakuan (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
+
+-   $\mu$ : rataan umum
+
+-   $\tau_i$ : pengaruh perlakuan (pada perlakuan ke-$i$ )
+
+-   $\varepsilon_{ij}$ : pengaruh acak (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
+
+**Cara memperoleh**
+
+1.  Vektor respons $y$ diperoleh dari data respon pada tabel yakni dari dosis $i$ ( $32 gr/m^3$ dan $64 gr/m^3$ ) dan ulangan $j$ (1, 2, dan 3). Contoh :\
+    $y_{11}$ : Dosis $32 gr/m^3$, ulangan ke-1. $y_{23}$ : Dosis $64 gr/m^3$ ulangan ke-3. \
+    ![](images/Screenshot 2023-11-29 055507-.png)
+2.  Matriks $\mathbf{X}$ diperoleh mirip seperi mencari dummy variabel. \
+    ![](images/Screenshot 2023-11-29 062114.png){width="250"}
+3.  Matriks $\beta$ terdiri dari $\mu$ (rataan umum), $\tau_1$ (pengaruh perlakuan 1) , dan $\tau_2$ (pengaruh perlakuan 2)
+4.  Matriks $\varepsilon$ atau pengaruh acak, jumlah dan index nya sesuai dengan matriks $y$.
+
+## Point (b)
+
+> Tunjukkan bahwa persamaan normal untuk model ini adalah persamaan yang konsisten.
+
+## Point (c)
+
+> Tunjukkan bahwa beda pengaruh dosis 32 dan 64 merupakan fungsi linier dari parameter yang dapat diduga (estimable).
 
 # a. Rancangan X
 

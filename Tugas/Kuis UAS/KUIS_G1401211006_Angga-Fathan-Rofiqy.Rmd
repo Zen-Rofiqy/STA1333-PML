@@ -389,9 +389,60 @@ Dimana :
 3.  Matriks $\beta$ terdiri dari $\mu$ (rataan umum), $\tau_1$ (pengaruh perlakuan 1) , dan $\tau_2$ (pengaruh perlakuan 2)
 4.  Matriks $\varepsilon$ atau pengaruh acak, jumlah dan index nya sesuai dengan matriks $y$.
 
+```{r, include=FALSE}
+y <- c(90, 88, 92, 90, 80, 78)
+X <- matrix(c(1, 1, 0,
+              1, 1, 0,
+              1, 1, 0,
+              1, 0, 1,
+              1, 0, 1,
+              1, 0, 1), 6, 3, T)
+n <- nrow(X)
+```
+
 ## Point (b)
 
 > Tunjukkan bahwa persamaan normal untuk model ini adalah persamaan yang konsisten.
+
+**Hasil dari R**
+
+```{r message=FALSE, warning=FALSE}
+#X'X
+tXX <- t(X) %*% X; cat("X'X :\n"); tXX
+
+#(X'X)^c
+install_load("MASS")
+M1 <- matrix(c(3, 0, 
+               0, 3), 2,2,T)
+tXX.c1 <- matrix(0, nrow = 3, ncol = 3)
+tXX.c1[2:3, 2:3] <- t(solve(M1))
+
+#X'y 
+tXy <- t(X) %*% y; cat("\nX'y :\n"); tXy
+
+#(X'X)|(X'y)
+tXX.tXy <- matrix(c(tXX, tXy), 3, 4, F); cat("\n(X'X)|(X'y) :\n"); tXX.tXy  
+
+#rank(X'X)
+cat("\n\nrank(X'X) :", qr(tXX)$rank)
+
+#rank(X'y)
+cat("\n\nrank{(X'X)|(X'y)} :", qr(tXX.tXy)$rank )
+```
+
+Sistem Persamaan Linier disebut konsisten jika $r(\mathbf{A}|\mathbf{B}) = r(\mathbf{A})$. Dimana SPL : $\mathbf{A}\mathbf{x}=\mathbf{B}$
+
+Dalam Model Linier bentuknya menjadi : $(\mathbf{X}'\mathbf{X}) \mathbf{b} = \mathbf{X}'\mathbf{y}$. Sehingga persamaan disebut konsisten jika $r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y}) = r(\mathbf{X}'\mathbf{X})$.
+
+$$
+\begin{equation}
+\begin{aligned}
+r(\mathbf{X}'\mathbf{X}) & = r\begin{pmatrix}  6 & 3 & 3 \\ 3 & 3 & 0\\ 3 & 0 & 3 \end{pmatrix} \overset{\text{E}31(-1)}{\underset{\text{E}32(1)}{\longrightarrow}} r\begin{pmatrix} 6 & 3 & 3 \\ 3 & 3 & 0\\ 0 & 0 & 0 \end{pmatrix} \\ &=2 \\ \\ r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y}) & = r\begin{pmatrix} \begin{array}{ccc|c} 6 & 3 & 3 & 518 \\ 3 & 3 & 0 & 270\\ 3 & 0 & 3 & 248 \end{array}\end{pmatrix} \overset{\text{E}31(-1)}{\underset{\text{E}32(1)}{\longrightarrow}} r\begin{pmatrix} \begin{array}{ccc|c} 6 & 3 & 3 & 518 \\ 3 & 3 & 0 & 270\\ 0 & 0 & 0 & 0 \end{array}\end{pmatrix} \\ &=2 \\ \\ r(\mathbf{X}'\mathbf{X}) & = r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y})
+\end{aligned}
+\end{equation}
+$$
+
+Sehingga Persamaan normal pada model ini terbukti konsisten.
 
 ## Point (c)
 

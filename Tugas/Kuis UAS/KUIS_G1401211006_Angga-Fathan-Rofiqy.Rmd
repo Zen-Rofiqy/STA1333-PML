@@ -109,11 +109,7 @@ $$
 \text{ }
 $$
 
-$\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }$**Rpubs :** [https://rpubs.com/ZenR_Prog/PML-TM-8](#0){.uri}
-
-$$
-\text{ }
-$$
+$\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }$
 
 $$
 \text{ }
@@ -152,6 +148,18 @@ Misalkan $y_1,\ldots,y_6$ merupakan hasil produksi yang dilakukan enam hari bert
 ## Point (a)
 
 > Susunlah **model linier**nya dalam bentuk **matriks** dan **persamaan normal** dari rancangan diatas, lengkapi dengan **keterangan** yang jelas.
+
+$$
+y = \mathbf{X}\beta + \varepsilon
+$$
+
+$$
+\begin{bmatrix} y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{23} \\ y_{23} \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
+$$
+
+$$
+\begin{bmatrix} 8.95 \\ 7.81 \\ 7.5 \\ 5.81 \\ 7.30 \\ 7.60 \\ \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
+$$
 
 ## Point (b)
 

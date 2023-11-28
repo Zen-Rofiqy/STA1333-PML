@@ -149,6 +149,8 @@ Misalkan $y_1,\ldots,y_6$ merupakan hasil produksi yang dilakukan enam hari bert
 
 > Susunlah **model linier**nya dalam bentuk **matriks** dan **persamaan normal** dari rancangan diatas, lengkapi dengan **keterangan** yang jelas.
 
+**Persamaan dalam bentuk Matriks**
+
 $$
 y = \mathbf{X}\beta + \varepsilon
 $$
@@ -160,6 +162,18 @@ $$
 $$
 \begin{bmatrix} 8.95 \\ 7.81 \\ 7.5 \\ 5.81 \\ 7.30 \\ 7.60 \\ \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
 $$
+
+Dimana :
+
+-   $y$ : vektor pengamatan
+
+-   $\mathbf{X}$ : matriks rancangan
+
+-   $\beta$ : vektor parameter
+
+-   $\varepsilon$ : vektor galat
+
+**Persamaan normal**
 
 ## Point (b)
 

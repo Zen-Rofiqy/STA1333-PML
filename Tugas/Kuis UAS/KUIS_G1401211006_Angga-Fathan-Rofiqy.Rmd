@@ -246,7 +246,7 @@ $$
 SSres <- t(y) %*% ( diag(1,6,6) - X %*% tXX.c1 %*% t(X) ) %*% y; cat("SSres :", SSres)
 
 #s^2
-r <- 2
+r <- qr(tXX)$rank
 s2 <- SSres/(n-r); cat("\n\ns^2 :", s2)
 ```
 
@@ -272,15 +272,39 @@ $$
 
 > Apakah $\tau_1 - \tau_2$ estimable?
 
+**Hasil dari R**
+
+```{r}
+c(0, 1, -1) %*% tXX.c1 %*% tXX
+```
+
 $$
 \begin{equation}
-\begin{aligned}\tau_1 - \tau_2 = t'\beta &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} \\ t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X}) &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix}  \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix}\end{aligned} 
+\begin{aligned}\tau_1 - \tau_2 = t'\beta &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} \\ t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X}) &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix}  \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 6 & 3 & 3 \\ 3 & 3 & 0 \\ 3 & 0 & 3 \\ \end{bmatrix} \\ &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \end{aligned} 
 \end{equation}
 $$
+
+Karena $t' =t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X})$ maka $\tau_1 - \tau_2$ **estimable**.
 
 ## Point (e)
 
 > Apakah $H_0$ : $\tau_1 – \tau_2$ testable?
+
+Cek syarat testable :
+
+1.  $\mathbf{C}\beta$ estimable\
+    Dimana $\mathbf{C}=\begin{bmatrix} 0 & 1 & -1 \end{bmatrix}$ , $\beta=\mathbf{H} = (\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X})$\
+    Karena matriks $\mathbf{C}$ sama dengan vektor $t'$ pada **point (d)**, maka dapat dipastikan bahwa $\mathbf{C}\beta$ estimable.
+
+2.  Vektor-vektor baris pada matriks $\mathbf{C}$ saling bebas\
+    Karena matriks $\mathbf{C}$ merupakan vektor baris, maka dapat dinyatakan vektor-vektor baris pada matriks $\mathbf{C}$ saling bebas.
+
+    $$
+    \begin{equation}\begin{aligned} a_1 \begin{bmatrix} 0 \\ 1 \\ -1 \end{bmatrix} &= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \\ \begin{bmatrix} 0 \\ a_1 \\ -a_1 \end{bmatrix} &= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \end{aligned} \end{equation}
+    $$\
+    Atau dapat dinyatakan dengan $a_1 = -a_1 = 0$, yang artinya saling bebas.
+
+Karena semua syarat testable terpenuni, maka $H_0$ : $\tau_1 – \tau_2$ testable.
 
 ## Point (f)
 

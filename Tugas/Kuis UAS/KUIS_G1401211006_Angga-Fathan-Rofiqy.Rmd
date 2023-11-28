@@ -238,6 +238,10 @@ $$
 
 > Tentukan penduga ragam $\tau_1 – \tau_2$
 
+$$
+SS_{res} = y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y
+$$
+
 ## Point (d)
 
 > Apakah $\tau_1 - \tau_2$ estimable?

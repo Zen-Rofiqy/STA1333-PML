@@ -197,6 +197,7 @@ X <- matrix(c(1, 1, 0,
               1, 0, 1,
               1, 0, 1,
               1, 0, 1), 6, 3, T)
+n <- nrow(X)
 ```
 
 ## Point (b)
@@ -224,7 +225,7 @@ tXy <- t(X) %*% y; cat("\nX'y :\n"); tXy
 Beta <- tXX.c1 %*% tXy; cat("\nBeta :\n"); Beta
 ```
 
-**Dalam bentuk tulisan**
+**Dalam Latex**
 
 $$
 \begin{equation}
@@ -238,18 +239,44 @@ $$
 
 > Tentukan penduga ragam $\tau_1 – \tau_2$
 
+**Hasil dari R**
+
+```{r}
+#SSres
+SSres <- t(y) %*% ( diag(1,6,6) - X %*% tXX.c1 %*% t(X) ) %*% y; cat("SSres :", SSres)
+
+#s^2
+r <- 2
+s2 <- SSres/(n-r); cat("\n\ns^2 :", s2)
+```
+
+**Dalam Latex**
+
 $$
 \begin{equation}
-\begin{aligned}SS_{res} &= y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y \\ \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}' &= \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix}
+\begin{aligned}SS_{res} &= y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y \\  &= \begin{bmatrix} 8.95 & 7.81 & 7.5 & 5.81 & 7.30 & 7.60  \end{bmatrix} \left[ \mathbf{I} - \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 & 1 & 1 & 1 \\ 1 & 1 & 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 1 & 1 \end{bmatrix} \right] \begin{bmatrix} 8.95 \\ 7.81 \\ 7.5 \\ 5.81 \\ 7.30 \\ 7.60 \\ \end{bmatrix} \\ &= 3.004133
 \end{aligned} 
 \end{equation}
 $$
 
-Dimana :
+Penduga ragam galat
+
+$$
+\begin{equation}
+\begin{aligned} s^2 &= \frac{SS_{res}}{n-r} \\ &= \frac{3.004133}{6-2} \\ &= 0.7510333
+\end{aligned}
+\end{equation}
+$$
 
 ## Point (d)
 
 > Apakah $\tau_1 - \tau_2$ estimable?
+
+$$
+\begin{equation}
+\begin{aligned}\tau_1 - \tau_2 = t'\beta &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} \\ t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X}) &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix}  \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix}\end{aligned} 
+\end{equation}
+$$
 
 ## Point (e)
 

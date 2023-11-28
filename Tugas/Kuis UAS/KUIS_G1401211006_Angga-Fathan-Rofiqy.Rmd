@@ -310,17 +310,26 @@ Karena semua syarat testable terpenuni, maka $H_0$ : $\tau_1 – \tau_2$ testabl
 
 > Lakukan pengujian hipotesis pada point (e) dengan taraf nyata $0.05$.
 
-```{r}
+**Hasil dari R**
 
+```{r}
+C <- matrix(c(0, 1, -1), 1, 3, T)
+m <- 1
+Fhit <- ( t(C %*% Beta) %*% solve(C %*% tXX.c1 %*% t(C)) %*% C %*% Beta /m )/s2
+cat("Fhit :", Fhit, "\nFtab :", qf(1 - 0.05, 1, 4) )
 ```
 
 $$
-\begin{equation}\begin{aligned} F_{hit} &= \frac{ (\mathbf{C}\beta)' (\mathbf{C} (\mathbf{X}'\mathbf{X})^c \mathbf{C}')^{-1} \mathbf{C}\beta/m} {s^2} \\ \\ \mathbf{C} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \text{ ; } \beta = \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} \\ \\ F_{hit} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \end{aligned} \end{equation}
+\begin{equation}\begin{aligned} F_{hit} &= \frac{ (\mathbf{C}\beta)' (\mathbf{C} (\mathbf{X}'\mathbf{X})^c \mathbf{C}')^{-1} \mathbf{C}\beta/m} {s^2} \\ \\ \mathbf{C} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \text{ ; } \beta = \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} \\ \\  F_{hit} &=  \frac{ \dfrac{\left( \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix}\right)' \left( \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 0 \\ 1 \\ -1 \end{bmatrix} \right)^{-1} \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} } {1} }{0.7510333} \\ F_{hit} &= 2.796702 \end{aligned} \end{equation}
 $$
+
+Sedangkan $F_{(1;4)0.05} = 7.708647$ yang lebih besar dari $F_{hit}$.
 
 ## Point (g)
 
 > Kesimpulan
+
+Karena $F_{hit} < F_{(1;4)0.05}$, maka tolak $H_0$. Artinya Tidak cukup bukti untuk menyatakan bahwa terdapat pengaruh minimal satu dari kedua mesin terhadap hasil produksi pada taraf nyata 5%.
 
 Suatu Model Linier
 

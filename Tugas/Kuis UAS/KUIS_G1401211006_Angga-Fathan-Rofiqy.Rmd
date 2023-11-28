@@ -165,7 +165,7 @@ $$
 
 Dimana :
 
--   $y$ : vektor pengamatan
+-   $y$ : vektor respons
 
 -   $\mathbf{X}$ : matriks rancangan
 
@@ -174,6 +174,20 @@ Dimana :
 -   $\varepsilon$ : vektor galat
 
 **Persamaan normal**
+
+$$
+y_{ij} = \mu + \tau_i + \varepsilon_{ij} \text{ } ; \text{ } i = 1, 2 \text{ dan } j=1,2,3
+$$
+
+Dimana :
+
+-   $y_{ij}$ : respons perlakuan (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
+
+-   $\mu$ : rataan umum
+
+-   $\tau_i$ : pengaruh perlakuan (pada perlakuan ke-$i$ )
+
+-   $\varepsilon_{ij}$ : pengaruh acak (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
 
 ## Point (b)
 

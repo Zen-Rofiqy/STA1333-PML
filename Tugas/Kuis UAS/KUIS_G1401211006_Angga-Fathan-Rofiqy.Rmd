@@ -310,6 +310,14 @@ Karena semua syarat testable terpenuni, maka $H_0$ : $\tau_1 – \tau_2$ testabl
 
 > Lakukan pengujian hipotesis pada point (e) dengan taraf nyata $0.05$.
 
+```{r}
+
+```
+
+$$
+\begin{equation}\begin{aligned} F_{hit} &= \frac{ (\mathbf{C}\beta)' (\mathbf{C} (\mathbf{X}'\mathbf{X})^c \mathbf{C}')^{-1} \mathbf{C}\beta/m} {s^2} \\ \\ \mathbf{C} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \text{ ; } \beta = \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} \\ \\ F_{hit} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \end{aligned} \end{equation}
+$$
+
 ## Point (g)
 
 > Kesimpulan

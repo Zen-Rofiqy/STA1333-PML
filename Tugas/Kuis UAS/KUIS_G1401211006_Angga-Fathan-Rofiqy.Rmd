@@ -239,8 +239,13 @@ $$
 > Tentukan penduga ragam $\tau_1 – \tau_2$
 
 $$
-SS_{res} = y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y
+\begin{equation}
+\begin{aligned}SS_{res} &= y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y \\ \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}' &= \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix}
+\end{aligned} 
+\end{equation}
 $$
+
+Dimana :
 
 ## Point (d)
 

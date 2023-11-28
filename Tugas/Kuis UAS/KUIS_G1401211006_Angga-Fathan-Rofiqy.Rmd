@@ -189,9 +189,37 @@ Dimana :
 
 -   $\varepsilon_{ij}$ : pengaruh acak (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
 
+```{r, include=FALSE}
+y <- c(8.95, 7.81, 7.5, 5.81, 7.3, 7.6)
+X <- matrix(c(1, 1, 0,
+              1, 1, 0,
+              1, 1, 0,
+              1, 0, 1,
+              1, 0, 1,
+              1, 0, 1), 6, 3, T)
+```
+
 ## Point (b)
 
 > Hitunglah **penduga kuadrat terkecil** bagi beda pengaruh `Mesin A` dan `Mesin B`.
+
+**Hasil dari R**
+
+```{r}
+#X'X
+tXX <- t(X) %*% X; cat("X'X :\n"); tXX
+
+#(X'X)^c
+install_load("MASS")
+M1 <- matrix(c(3, 0, 
+               0, 3), 2,2,T)
+tXX.c1 <- matrix(0, nrow = 3, ncol = 3)
+tXX.c1[2:3, 2:3] <- t(solve(M1))
+cat("\n(X'X)^c :\n"); fractions(tXX.c1)
+
+#X'y 
+tXy <- t(X) %*% y; cat("\nX'y :\n"); tXy
+```
 
 $$
 \begin{equation}

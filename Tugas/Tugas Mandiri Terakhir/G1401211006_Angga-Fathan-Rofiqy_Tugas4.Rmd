@@ -145,7 +145,7 @@ block_toc()
 
 Sebuah studi tentang kelarutan dua persiapan enzim yang paling umum dilakukan. **Tujuan** dari penelitian ini adalah untuk menentukan efek jenis kapsul dan cairan biologis pada waktu yang diperlukan agar kapsul larut. Dua cairan biologis, lambung, dan duodenum, dan dua jenis kapsul, A dan B, digunakan dalam penelitian ini. Empat sampel identik dari persiapan diperoleh. Dua dipilih secara acak untuk enkapsulasi dalam kapsul tipe A; Yang lain dienkapsulasi dalam tipe B. Salah satu dari masing -masing jenis kapsul kemudian dipilih secara acak dan dilarutkan dalam jus lambung; Yang lain dilarutkan dalam jus duodenum. Data yang diperoleh dengan beberapa kali pengulangan:
 
-![](images/Screenshot 2023-11-30 024325.png)
+![](images/Screenshot%202023-11-30%20024325.png)
 
 ## Point (a)
 
@@ -357,7 +357,7 @@ cat("Fhit :", Fhit, "\nFtab :", qf(1 - 0.05, 1, 5-4) )
 
 Keputusan : $F_{hit}=0.6523<F_{tabel}=161.45$ maka tak tolak $H_0$
 
-### Kesimpulan 
+### Kesimpulan
 
 Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$.
 
@@ -393,7 +393,7 @@ Ini sesuai dengan tabel sebelumnya. 
 head(anova.tab, 7)
 ```
 
-### Kesimpulan 
+### Kesimpulan
 
 Tolak $H_0$. Artinya, faktor interaksi antara cairan biologis dan jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5_%$.
 
@@ -401,7 +401,7 @@ Tolak $H_0$. Artinya, faktor interaksi antara cairan biologis dan jenis kapsul b
 
 Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa penerapan 4 metode belajar yang berbeda yaitu konvensional, auditori, kinestetik, dan visual. Sementara respon berupa nilai ujian akhir semester (UAS) dari masing-masing siswa tersebut dan diberikan pula covariate berupa nilai ujian tengah semester (UTS). Berikut adalah datanya.
 
-![](images/Screenshot 2023-11-30 034256.png){width="489"}
+![](images/Screenshot%202023-11-30%20034256.png){width="489"}
 
 ## Point (a)
 
@@ -417,8 +417,8 @@ Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa pene
 
 ```{r}
 data2 <- data.frame(
-  Metode = rep(c("konvensional","kinestetik","visual","autidori"), each=6) %>% 
-    as.factor(),
+  Metode = rep(c("konvensional","kinestetik","visual","autidori"),
+               each=6) %>% as.factor(),
   y = c(60, 68, 68, 67, 64, 62,
         94, 90, 96, 91, 94, 90,
         89, 82, 82, 85, 83, 83,
@@ -438,7 +438,7 @@ ancova_model <- Anova(ancova.model, type="III"); ancova_model
 ```
 
 ```{r}
-qf(1-0.05, 3, 19)
+cat("F.tabel =", qf(1-0.05, 3, 19))
 ```
 
 ### Rata-rata perlakuan metode belajar
@@ -454,7 +454,7 @@ c(ybar = ybar, xbar = xbar, mu.adj = mu.adj)
 
 ### Kesimpulan
 
-Dengan nilai $F_{hitung} = 118.124 > F_{tabel} = 3.12735$ atau $p-value = 1.822\times10^{-12} < 0.05$. Maka, Tolak $H_0$. Artinya metode belajar memiliki pengaruh yang signifikan terhadap nilai UAS.
+Diperoleh nilai $F_{hitung} = 117.0801 > F_{tabel} = 3.12735$ atau $p-value = 1.973\times10^{-12} < 0.05$. Maka, Tolak $H_0$. Artinya Metode belajar berpengaruh nyata terhadap nilai UAS.
 
 ## Point (b)
 
@@ -466,325 +466,28 @@ Dengan nilai $F_{hitung} = 118.124 > F_{tabel} = 3.12735$ atau $p-value = 1.822\
 >
 > $H_1$ : Nilai UTS (covariate) berpengaruh nyata terhadap nilai UAS
 
-### Kesimpulan
+### Penyelesaian
+
+```{r}
+ancova_model
+```
+
+```{r}
+cat("F.tabel =", qf(1-0.05, 3, 19))
+```
+
+Diperoleh nilai $F_{hitung} = 4.7118 > F_{tabel} = 3.12735$ atau $p-value = 0.04284 < 0.05$. Maka, Tolak $H_0$. Artinya Nilai UTS (covariate) berpengaruh nyata terhadap nilai UAS.
 
 ## Point (c)
 
 > Estimasikan rata-rata perlakuan metode belajar
 
-```{r}
+$\hat{\beta}=\frac{E_{xy}}{E_{xx}}=-0,46518$
 
-```
+$\mu_1\widehat{(adj)}=\bar{y_{1.}}-\hat{\beta}\left(\bar{x_{1.}}-\bar{x_{..}}\right)=64,833-\left(-0,46518\ast\left(64,5-65,0833\right)\right)=64,562$
 
-**Persamaan dalam bentuk Matriks**
+$\mu_2\widehat{(adj)}=\bar{y_{2.}}-\hat{\beta}\left(\bar{x_{2.}}-\bar{x_{..}}\right)=92,5-\left(-0,46518\ast\left(65-65,0833\right)\right)=92,4612$
 
-$$
-y = \mathbf{X}\beta + \varepsilon
-$$
+$\mu_3\widehat{(adj)}=\bar{y_{3.}}-\hat{\beta}\left(\bar{x_{3.}}-\bar{x_{..}}\right)=84-\left(-0,46518\ast\left(64-65,0833\right)\right)=83,4960$
 
-$$
-\begin{bmatrix} y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{23} \\ y_{23} \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
-$$
-
-$$
-\begin{bmatrix} 8.95 \\ 7.81 \\ 7.5 \\ 5.81 \\ 7.30 \\ 7.60 \\ \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
-$$
-
-Dimana :
-
--   $y$ : vektor respons
-
--   $\mathbf{X}$ : matriks rancangan
-
--   $\beta$ : vektor parameter
-
--   $\varepsilon$ : vektor galat
-
-**Persamaan normal**
-
-$$
-y_{ij} = \mu + \tau_i + \varepsilon_{ij} \text{ } ; \text{ } i = 1, 2 \text{ dan } j=1,2,3
-$$
-
-Dimana :
-
--   $y_{ij}$ : respons perlakuan (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
-
--   $\mu$ : rataan umum
-
--   $\tau_i$ : pengaruh perlakuan (pada perlakuan ke-$i$ )
-
--   $\varepsilon_{ij}$ : pengaruh acak (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
-
-```{r, include=FALSE}
-y <- c(8.95, 7.81, 7.5, 5.81, 7.3, 7.6)
-X <- matrix(c(1, 1, 0,
-              1, 1, 0,
-              1, 1, 0,
-              1, 0, 1,
-              1, 0, 1,
-              1, 0, 1), 6, 3, T)
-n <- nrow(X)
-```
-
-## Point (b)
-
-> Hitunglah **penduga kuadrat terkecil** bagi beda pengaruh `Mesin A` dan `Mesin B`.
-
-**Hasil dari R**
-
-```{r message=FALSE, warning=FALSE}
-#X'X
-tXX <- t(X) %*% X; cat("X'X :\n"); tXX
-
-#(X'X)^c
-install_load("MASS")
-M1 <- matrix(c(3, 0, 
-               0, 3), 2,2,T)
-tXX.c1 <- matrix(0, nrow = 3, ncol = 3)
-tXX.c1[2:3, 2:3] <- t(solve(M1))
-cat("\n(X'X)^c :\n"); fractions(tXX.c1)
-
-#X'y 
-tXy <- t(X) %*% y; cat("\nX'y :\n"); tXy
-
-#Beta
-Beta <- tXX.c1 %*% tXy; cat("\nBeta :\n"); Beta
-```
-
-**Dalam Latex**
-
-$$
-\begin{equation}
-\begin{aligned}
-\mathbf{X}'\mathbf{X} &= \begin{bmatrix} 6 & 3 & 3 \\ 3 & 3 & 0 \\ 3 & 0 & 3 \\ \end{bmatrix} \\ \\ (\mathbf{X}'\mathbf{X})^c &= \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \\ \\ \mathbf{X}'\mathbf{y} &= \begin{bmatrix} 44.97 \\ 24.26 \\ 20.71 \\\end{bmatrix} \\ \\ \beta &= (\mathbf{X}'\mathbf{X})^c \mathbf{X}'\mathbf{y} \\ &= \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix}  \begin{bmatrix} 44.97 \\ 24.26 \\ 20.71 \\ \end{bmatrix} \\ &= \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix}
-\end{aligned}
-\end{equation}
-$$
-
-## Point (c)
-
-> Tentukan penduga ragam $\tau_1 – \tau_2$
-
-**Hasil dari R**
-
-```{r}
-#SSres
-SSres <- t(y) %*% ( diag(1,6,6) - X %*% tXX.c1 %*% t(X) ) %*% y; cat("SSres :", SSres)
-
-#s^2
-r <- qr(tXX)$rank
-s2 <- SSres/(n-r); cat("\n\ns^2 :", s2)
-```
-
-**Dalam Latex**
-
-$$
-\begin{equation}
-\begin{aligned}SS_{res} &= y'[\mathbf{I} - \mathbf{X} (\mathbf{X}' \mathbf{X})^c \mathbf{X}']y \\  &= \begin{bmatrix} 8.95 & 7.81 & 7.5 & 5.81 & 7.30 & 7.60  \end{bmatrix} \left[ \mathbf{I} - \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 & 1 & 1 & 1 \\ 1 & 1 & 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 & 1 & 1 \end{bmatrix} \right] \begin{bmatrix} 8.95 \\ 7.81 \\ 7.5 \\ 5.81 \\ 7.30 \\ 7.60 \\ \end{bmatrix} \\ &= 3.004133
-\end{aligned} 
-\end{equation}
-$$
-
-Penduga ragam galat
-
-$$
-\begin{equation}
-\begin{aligned} s^2 &= \frac{SS_{res}}{n-r} \\ &= \frac{3.004133}{6-2} \\ &= 0.7510333
-\end{aligned}
-\end{equation}
-$$
-
-## Point (d)
-
-> Apakah $\tau_1 - \tau_2$ estimable?
-
-**Hasil dari R**
-
-```{r}
-c(0, 1, -1) %*% tXX.c1 %*% tXX
-```
-
-$$
-\begin{equation}
-\begin{aligned}\tau_1 - \tau_2 = t'\beta &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} \\ t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X}) &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix}  \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 6 & 3 & 3 \\ 3 & 3 & 0 \\ 3 & 0 & 3 \\ \end{bmatrix} \\ &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \end{aligned} 
-\end{equation}
-$$
-
-Karena $t' =t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X})$ maka $\tau_1 - \tau_2$ **estimable**.
-
-## Point (e)
-
-> Apakah $H_0$ : $\tau_1 – \tau_2$ testable?
-
-Cek syarat testable :
-
-1.  $\mathbf{C}\beta$ estimable\
-    Dimana $\mathbf{C}=\begin{bmatrix} 0 & 1 & -1 \end{bmatrix}$ , $\beta=\mathbf{H} = (\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X})$\
-    Karena matriks $\mathbf{C}$ sama dengan vektor $t'$ pada **point (d)**, maka dapat dipastikan bahwa $\mathbf{C}\beta$ estimable.
-
-2.  Vektor-vektor baris pada matriks $\mathbf{C}$ saling bebas\
-    Karena matriks $\mathbf{C}$ merupakan vektor baris, maka dapat dinyatakan vektor-vektor baris pada matriks $\mathbf{C}$ saling bebas.
-
-    $$
-    \begin{equation}\begin{aligned} a_1 \begin{bmatrix} 0 \\ 1 \\ -1 \end{bmatrix} &= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \\ \begin{bmatrix} 0 \\ a_1 \\ -a_1 \end{bmatrix} &= \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix} \end{aligned} \end{equation}
-    $$\
-    Atau dapat dinyatakan dengan $a_1 = -a_1 = 0$, yang artinya saling bebas.
-
-Karena semua syarat testable terpenuni, maka $H_0$ : $\tau_1 – \tau_2$ testable.
-
-## Point (f)
-
-> Lakukan pengujian hipotesis pada point (e) dengan taraf nyata $0.05$.
-
-**Hasil dari R**
-
-```{r}
-C <- matrix(c(0, 1, -1), 1, 3, T)
-m <- 1
-Fhit <- ( t(C %*% Beta) %*% solve(C %*% tXX.c1 %*% t(C)) %*% C %*% Beta /m )/s2
-cat("Fhit :", Fhit, "\nFtab :", qf(1 - 0.05, 1, 4) )
-```
-
-$$
-\begin{equation}\begin{aligned} F_{hit} &= \frac{ (\mathbf{C}\beta)' (\mathbf{C} (\mathbf{X}'\mathbf{X})^c \mathbf{C}')^{-1} \mathbf{C}\beta/m} {s^2} \\ \\ \mathbf{C} &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \text{ ; } \beta = \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} \\ \\  F_{hit} &=  \frac{ \dfrac{\left( \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix}\right)' \left( \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 0 \\ 1 \\ -1 \end{bmatrix} \right)^{-1} \begin{bmatrix} 0 \\ 8.0866 \\ 6.9033 \\ \end{bmatrix} } {1} }{0.7510333} \\ F_{hit} &= 2.796702 \end{aligned} \end{equation}
-$$
-
-Sedangkan $F_{(1;4)0.05} = 7.708647$ yang lebih besar dari $F_{hit}$.
-
-## Point (g)
-
-> Kesimpulan
-
-Karena $F_{hit} < F_{(1;4)0.05}$, maka tolak $H_0$. Artinya Tidak cukup bukti untuk menyatakan bahwa terdapat pengaruh minimal satu dari kedua mesin terhadap hasil produksi pada taraf nyata 5%.
-
-# Soal no 2
-
-Suatu percobaan bertujuan untuk mengetahui pengaruh dosis fumigant terhadap daya kecambah benih kacang hijau. **Dosis** fumigant yang diberikan ada **dua**: $32 gr/m^3$ dan $64 gr/m^3$ dengan **3 ulangan**. Data yang diperoleh sebagai berikut:
-
-![](images/Screenshot%202023-11-29%20055507.png)
-
-## Point (a)
-
-> Jika rancangan yang digunakan adalah RAL, tuliskan model liner dalam bentuk matriks besera keterangannya. Tunjukkan cara memperolehnya.
-
-**Model dalam bentuk matriks**
-
-$$
-y = \mathbf{X}\beta + \varepsilon
-$$
-
-$$
-\begin{bmatrix} y_{11} \\ y_{12} \\ y_{13} \\ y_{21} \\ y_{23} \\ y_{23} \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
-$$
-
-$$
-\begin{bmatrix} 90 \\ 88 \\ 92 \\ 90 \\ 80 \\ 78 \end{bmatrix} = \begin{bmatrix} 1 & 1 & 0 \\  1 & 1 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ 1 & 0 & 1 \\ \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \varepsilon_{13} \\ \varepsilon_{21} \\ \varepsilon_{23} \\ \varepsilon_{23} \end{bmatrix}
-$$
-
-Dimana :
-
--   $y$ : vektor respons
-
--   $\mathbf{X}$ : matriks rancangan
-
--   $\beta$ : vektor parameter
-
--   $\varepsilon$ : vektor galat
-
-**Model linier**
-
-$$ y_{ij} = \mu + \tau_i + \varepsilon_{ij} \text{ } ; \text{ } i = 1, 2 \text{ dan } j=1,2,3 $$
-
-Dimana :
-
--   $y_{ij}$ : respons perlakuan (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
-
--   $\mu$ : rataan umum
-
--   $\tau_i$ : pengaruh perlakuan (pada perlakuan ke-$i$ )
-
--   $\varepsilon_{ij}$ : pengaruh acak (pada perlakuan ke-$i$ dan ulangan ke-$j$ )
-
-**Cara memperoleh**
-
-1.  Vektor respons $y$ diperoleh dari data respon pada tabel yakni dari dosis $i$ ( $32 gr/m^3$ dan $64 gr/m^3$ ) dan ulangan $j$ (1, 2, dan 3). Contoh :\
-    $y_{11}$ : Dosis $32 gr/m^3$, ulangan ke-1. $y_{23}$ : Dosis $64 gr/m^3$ ulangan ke-3.\
-    ![](images/Screenshot%202023-11-29%20055507-.png)
-2.  Matriks $\mathbf{X}$ diperoleh mirip seperi mencari dummy variabel.\
-    ![](images/Screenshot%202023-11-29%20062114.png){width="250"}
-3.  Matriks $\beta$ terdiri dari $\mu$ (rataan umum), $\tau_1$ (pengaruh perlakuan 1) , dan $\tau_2$ (pengaruh perlakuan 2)
-4.  Matriks $\varepsilon$ atau pengaruh acak, jumlah dan index nya sesuai dengan matriks $y$.
-
-```{r, include=FALSE}
-y <- c(90, 88, 92, 90, 80, 78)
-X <- matrix(c(1, 1, 0,
-              1, 1, 0,
-              1, 1, 0,
-              1, 0, 1,
-              1, 0, 1,
-              1, 0, 1), 6, 3, T)
-n <- nrow(X)
-```
-
-## Point (b)
-
-> Tunjukkan bahwa persamaan normal untuk model ini adalah persamaan yang konsisten.
-
-**Hasil dari R**
-
-```{r message=FALSE, warning=FALSE}
-#X'X
-tXX <- t(X) %*% X; cat("X'X :\n"); tXX
-
-#(X'X)^c
-install_load("MASS")
-M1 <- matrix(c(3, 0, 
-               0, 3), 2,2,T)
-tXX.c1 <- matrix(0, nrow = 3, ncol = 3)
-tXX.c1[2:3, 2:3] <- t(solve(M1))
-
-#X'y 
-tXy <- t(X) %*% y; cat("\nX'y :\n"); tXy
-
-#(X'X)|(X'y)
-tXX.tXy <- matrix(c(tXX, tXy), 3, 4, F); cat("\n(X'X)|(X'y) :\n"); tXX.tXy  
-
-#rank(X'X)
-cat("\n\nrank(X'X) :", qr(tXX)$rank)
-
-#rank(X'y)
-cat("\n\nrank{(X'X)|(X'y)} :", qr(tXX.tXy)$rank )
-```
-
-Sistem Persamaan Linier disebut konsisten jika $r(\mathbf{A}|\mathbf{B}) = r(\mathbf{A})$. Dimana SPL : $\mathbf{A}\mathbf{x}=\mathbf{B}$
-
-Dalam Model Linier bentuknya menjadi : $(\mathbf{X}'\mathbf{X}) \mathbf{b} = \mathbf{X}'\mathbf{y}$. Sehingga persamaan disebut konsisten jika $r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y}) = r(\mathbf{X}'\mathbf{X})$.
-
-$$
-\begin{equation}
-\begin{aligned}
-r(\mathbf{X}'\mathbf{X}) & = r\begin{pmatrix}  6 & 3 & 3 \\ 3 & 3 & 0\\ 3 & 0 & 3 \end{pmatrix} \overset{\text{E}31(-1)}{\underset{\text{E}32(1)}{\longrightarrow}} r\begin{pmatrix} 6 & 3 & 3 \\ 3 & 3 & 0\\ 0 & 0 & 0 \end{pmatrix} \\ &=2 \\ \\ r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y}) & = r\begin{pmatrix} \begin{array}{ccc|c} 6 & 3 & 3 & 518 \\ 3 & 3 & 0 & 270\\ 3 & 0 & 3 & 248 \end{array}\end{pmatrix} \overset{\text{E}31(-1)}{\underset{\text{E}32(1)}{\longrightarrow}} r\begin{pmatrix} \begin{array}{ccc|c} 6 & 3 & 3 & 518 \\ 3 & 3 & 0 & 270\\ 0 & 0 & 0 & 0 \end{array}\end{pmatrix} \\ &=2 \\ \\ r(\mathbf{X}'\mathbf{X}) & = r(\mathbf{X}'\mathbf{X}|\mathbf{X}'\mathbf{y})
-\end{aligned}
-\end{equation}
-$$
-
-Sehingga Persamaan normal pada model ini terbukti konsisten.
-
-## Point (c)
-
-> Tunjukkan bahwa beda pengaruh dosis 32 dan 64 merupakan fungsi linier dari parameter yang dapat diduga (estimable).
-
-**Hasil dari R**
-
-```{r}
-cat("(X'X)^c:\n"); fractions(tXX.c1)
-cat("\nTau_1 - Tau_2 :\n")
-c(0, 1, -1) %*% tXX.c1 %*% tXX
-```
-
-Dosis 32 = $\tau_1$, dosis 64 = $\tau_2$. Sehingga akan dicek apakah $\tau_1 - \tau_2$ estimable?
-
-$$ \begin{equation} \begin{aligned}\tau_1 - \tau_2 = t'\beta &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \begin{bmatrix} \mu \\ \tau_1 \\ \tau_2 \end{bmatrix} \\ t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X}) &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix}  \begin{bmatrix} 0 & 0 & 0 \\ 0 & \frac{1}{3} & 0 \\ 0 & 0 & \frac{1}{3} \\ \end{bmatrix} \begin{bmatrix} 6 & 3 & 3 \\ 3 & 3 & 0 \\ 3 & 0 & 3 \\ \end{bmatrix} \\ &= \begin{bmatrix} 0 & 1 & -1 \end{bmatrix} \end{aligned}  \end{equation} $$
-
-Karena $t' =t'(\mathbf{X}' \mathbf{X})^c(\mathbf{X}' \mathbf{X})$ maka $\tau_1 - \tau_2$ **estimable**.
+$\mu_4\widehat{(adj)}=\bar{y_{4.}}-\hat{\beta}\left(\bar{x_{4.}}-\bar{x_{..}}\right)=75,333-\left(-0,46518\ast\left(66,833-65,0833\right)\right)=76,147$

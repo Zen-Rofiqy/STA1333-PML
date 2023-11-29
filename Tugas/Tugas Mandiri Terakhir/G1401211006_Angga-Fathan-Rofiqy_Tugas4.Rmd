@@ -151,6 +151,43 @@ Sebuah studi tentang kelarutan dua persiapan enzim yang paling umum dilakukan. *
 
 > Ujilah hipotesis $H_0$ : $\tau_1=\tau_2$ dan $H_0$ : $\beta_1=\beta_2$ pada taraf nyata $5\%$
 
+```{r, include=FALSE}
+y <- matrix(c(39, 49, 63, 45, 50, 47, 39, 41, 43, 36, 31, 36, 38, 33, 42, 44, 47, 42, 41, 45), 20, 1, T )
+X <- matrix(c(rep(1, length(y)), #Intersep
+              #Col 1
+              rep(1, length(y)/2),
+              rep(0, length(y)/2),
+              #Col 2
+              rep(0, length(y)/2),
+              rep(1, length(y)/2),
+              #Col 3
+              rep(1, length(y)/4),
+              rep(0, length(y)/4),
+              rep(1, length(y)/4),
+              rep(0, length(y)/4),
+              #Col 4
+              rep(0, length(y)/4),
+              rep(1, length(y)/4),
+              rep(0, length(y)/4),
+              rep(1, length(y)/4),
+              #Col 5
+              rep(1, length(y)/4),
+              rep(0, length(y)*3/4),
+              #Col 6
+              rep(0, length(y)/4),
+              rep(1, length(y)/4),
+              rep(0, length(y)*2/4),
+              #Col 7
+              rep(0, length(y)*2/4),
+              rep(1, length(y)/4),
+              rep(0, length(y)/4),
+              #Col 8
+              rep(0, length(y)*3/4),
+              rep(1, length(y)/4)
+              ), length(y), 9, F)
+n <- 5
+```
+
 ### **Hipotesis**
 
 **Faktor 1: Cairan biologis**
@@ -188,6 +225,57 @@ Sebuah studi tentang kelarutan dua persiapan enzim yang paling umum dilakukan. *
 > $H_1:\left(\left(\tau\beta\right)_{11}-\left(\tau\beta\right)_{12}\right)-\left(\left(\tau\beta\right)_{21}-\left(\tau\beta\right)_{22}\right)\neq0$
 
 ### Penyelesaian
+
+**Hasil dari R**
+
+```{r}
+cat("Vektor y :\n"); y
+cat("\n\nMatriks X :\n"); X
+
+tXX <- t(X) %*% X
+cat("\n\nX'X :\n"); tXX
+
+tXy <- t(X) %*% y
+cat("\n\nX'y :\n"); tXy
+
+install_load("MASS")
+M1 <- matrix(tXX[6:9, 6:9], 4,4,T)
+tXX.c1 <- matrix(0, 9, 9)
+tXX.c1[6:9, 6:9] <- t(solve(M1))
+cat("\n(X'X)^c :\n"); fractions(tXX.c1)
+
+b <- tXX.c1 %*% tXy; cat("\nb :\n"); b
+```
+
+```{r}
+#SSres
+SSres <- t(y) %*% ( diag(1,20,20) - X %*% tXX.c1 %*% t(X) ) %*% y; cat("SSres :", SSres)
+
+#s^2
+r <- qr(tXX)$rank
+s2 <- SSres/(n-r); cat("\n\ns^2 :", s2)
+```
+
+```{r}
+C <- matrix(c(0, 0, 0, 0, 0, 1, -1, -1, 1), 1, 9, T); cat("C :\n"); C
+m <- 1
+Fhit <- ( t(C %*% b) %*% solve(C %*% tXX.c1 %*% t(C)) %*% C %*% b /m )/s2
+cat("Fhit :", Fhit, "\nFtab :", qf(1 - 0.05, 1, 5-4) )
+```
+
+Keputusan : $F_{hit}=0.6523<F_{tabel}=161.45$ maka tak tolak $H_0$
+
+## Point (c)
+
+> Ujilah **interaksi** antara Faktor 1 dan 2 menggunakan metode **reparameterisasi** pada taraf nyata $5\%$
+
+# Soal no 2
+
+Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa penerapan 4 metode belajar yang berbeda yaitu konvensional, auditori, kinestetik, dan visual. Sementara respon berupa nilai ujian akhir semester (UAS) dari masing-masing siswa tersebut dan diberikan pula covariate berupa nilai ujian tengah semester (UTS). Berikut adalah datanya.
+
+### Kesimpulan 
+
+Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$.
 
 **Persamaan dalam bentuk Matriks**
 

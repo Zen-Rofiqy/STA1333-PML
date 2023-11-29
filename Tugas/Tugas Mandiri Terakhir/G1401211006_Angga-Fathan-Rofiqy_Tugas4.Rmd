@@ -151,7 +151,41 @@ Sebuah studi tentang kelarutan dua persiapan enzim yang paling umum dilakukan. *
 
 > Ujilah hipotesis $H_0$ : $\tau_1=\tau_2$ dan $H_0$ : $\beta_1=\beta_2$ pada taraf nyata $5\%$
 
-```{r, include=FALSE}
+### **Hipotesis**
+
+**Faktor 1: Cairan biologis**
+
+> $H_0$ : Faktor cairan biologis tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+>
+> $H_1$ : Faktor cairan biologis berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+
+**Faktor 2: Jenis kapsul**
+
+> $H_0$ : Faktor jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+>
+> $H_1$ : Faktor jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+
+**Faktor 3: Faktor interaksi cairan biologis dan jenis kapsul**
+
+> $H_0$ : Faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+>
+> $H_1$ : Faktor interaksi antara cairan biologis dan jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
+
+**Hasil dari R**
+
+```{r}
+data <- data.frame(
+  Capsule = rep(c("A", "B"), each = 10),
+  Fluid = rep(c("Gastric", "Duodenal"), times=2, each =5),
+  y = c(39, 49, 63, 45, 50, 47, 39, 41, 43, 36, 31, 36, 38, 33, 42, 44, 47, 42, 41, 45)
+)
+a <- length(unique(data$Capsule))
+b <- length(unique(data$Fluid))
+n <- nrow(data) / (a*b)
+head(data, 20)
+```
+
+```{r}
 y <- matrix(c(39, 49, 63, 45, 50, 47, 39, 41, 43, 36, 31, 36, 38, 33, 42, 44, 47, 42, 41, 45), 20, 1, T )
 X <- matrix(c(rep(1, length(y)), #Intersep
               #Col 1
@@ -185,34 +219,92 @@ X <- matrix(c(rep(1, length(y)), #Intersep
               rep(0, length(y)*3/4),
               rep(1, length(y)/4)
               ), length(y), 9, F)
-n <- 5
 ```
-
-### **Hipotesis**
-
-**Faktor 1: Cairan biologis**
-
-> $H_0$ : Faktor cairan biologis tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
->
-> $H_1$ : Faktor cairan biologis berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
-
-**Faktor 2: Jenis kapsul**
-
-> $H_0$ : Faktor jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
->
-> $H_1$ : Faktor jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
-
-**Faktor 3: Faktor interaksi cairan biologis dan jenis kapsul**
-
-> $H_0$ : Faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
->
-> $H_1$ : Faktor interaksi antara cairan biologis dan jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut
 
 ### Tabel ANOVA
 
+**Hasil dari R**
+
+```{r}
+anova <- aov(y ~ Fluid * Capsule, data=data)
+anova <- summary(anova); anova
+```
+
+```{r}
+model <- lm(y ~ X - 1)
+model.anova <- summary(aov(model)); model.anova
+```
+
+```{r}
+JK.Total <- sum(data$y^2)
+JK.Mean <- sum(data$y)^2 / nrow(data)
+
+KT.Total <- JK.Total / nrow(data)
+KT.Mean <- JK.Mean/1
+```
+
+```{r}
+anova.tab <- data.frame(
+  SK = c("Regresi Model Penuh", 
+         "Nilai Tengah", 
+         "Model Hipotesis Tau (cairan bilogis)", 
+         "Model Hipotesis Beta (jenis kapsul)",
+         "Model Hipotesis Tau Beta", 
+         "Galat", 
+         "Total"),
+  db = c(model.anova[[1]][["Df"]][1], 
+         1, 
+         anova[[1]][["Df"]][2], 
+         anova[[1]][["Df"]][1], 
+         anova[[1]][["Df"]][3], 
+         anova[[1]][["Df"]][4], 
+         nrow(data) ),
+  JK = c(model.anova[[1]][["Sum Sq"]][1],
+         JK.Mean,
+         anova[[1]][["Sum Sq"]][2],
+         anova[[1]][["Sum Sq"]][1],
+         anova[[1]][["Sum Sq"]][3],
+         anova[[1]][["Sum Sq"]][4],
+         JK.Total),
+  KT = c(model.anova[[1]][["Mean Sq"]][1],
+         KT.Mean,
+         anova[[1]][["Mean Sq"]][2],
+         anova[[1]][["Mean Sq"]][1],
+         anova[[1]][["Mean Sq"]][3],
+         anova[[1]][["Mean Sq"]][4],
+         KT.Total),
+  F.hitung = c(NA,
+               NA,
+               anova[[1]][["F value"]][2],
+               anova[[1]][["F value"]][1],
+               anova[[1]][["F value"]][3],
+               anova[[1]][["F value"]][4],
+               NA)
+)
+head(anova.tab, 7)
+```
+
 ### Membandingkan F-hitung dengan F-tabel
 
+```{r}
+f <- data.frame(
+  Sumber = c("Faktor cairan biologis", "Faktor Kapsul", 'Faktor interaksi'),
+  F.hitung = na.omit(anova.tab$F.hitung),
+  F.tabel = c(qf(1- 0.05, 1, 16), 
+              qf(1- 0.05, 1, 16),
+              qf(1- 0.05, 1, 16) )
+)
+f$Keputusan <- ifelse(f$F.hitung > f$F.tabel, "Tolak H0", "Tak Tolak H0")
+head(f, 3)
+```
+
 ### **Kesimpulan**
+
+-   Faktor 1 (cairan biologis) berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$
+
+-   Faktor 2 (jenis kapsul) tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$
+
+-   Faktor interaksi antara cairan biologis dengan jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$.
 
 ## Point(b)
 
@@ -273,6 +365,10 @@ Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis
 
 > Ujilah **interaksi** antara Faktor 1 dan 2 menggunakan metode **reparameterisasi** pada taraf nyata $5\%$
 
+```{r}
+
+```
+
 # Soal no 2
 
 Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa penerapan 4 metode belajar yang berbeda yaitu konvensional, auditori, kinestetik, dan visual. Sementara respon berupa nilai ujian akhir semester (UAS) dari masing-masing siswa tersebut dan diberikan pula covariate berupa nilai ujian tengah semester (UTS). Berikut adalah datanya.
@@ -306,6 +402,16 @@ Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa pene
 ## Point (c)
 
 > Estimasikan rata-rata perlakuan metode belajar
+
+### Hipotesis
+
+> $H_0:{(\tau\beta)}_{ij}^\ast=0$
+>
+> $H_1:{(\tau\beta)}_{ij}^\ast\neq0$
+
+```{r}
+head(anova.tab, 7)
+```
 
 **Persamaan dalam bentuk Matriks**
 

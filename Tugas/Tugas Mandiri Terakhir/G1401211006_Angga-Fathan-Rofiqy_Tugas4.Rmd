@@ -182,7 +182,7 @@ data <- data.frame(
 a <- length(unique(data$Capsule))
 b <- length(unique(data$Fluid))
 n <- nrow(data) / (a*b)
-head(data, 20)
+head(data, 10)
 ```
 
 ```{r}
@@ -365,9 +365,37 @@ Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis
 
 > Ujilah **interaksi** antara Faktor 1 dan 2 menggunakan metode **reparameterisasi** pada taraf nyata $5\%$
 
-```{r}
+### Hipotesis
 
+> $H_0:{(\tau\beta)}_{ij}^\ast=0$
+>
+> $H_1:{(\tau\beta)}_{ij}^\ast\neq0$
+
+### Penyelesaian
+
+${JK}_{regresi(penuh)}={\sum{i=1}^{2}\sum_{j=1}{2}\frac{y_{ij.}}{n}}2=36662,6$
+
+${JK}_{regresi(residual)}={\sum{i=1}{2}\frac{y_{i..}}{bn}}2+{\sum_{i=1}{2}\frac{y_{.j.}}{an}}2-\frac{y_\ldots^2}{abn}=36350,55$
+
+${JK}_{regresi(hipotesis)}={JK}_{regresi(penuh)}-{JK}_{regresi\left(residual\right)}=36662,6-36350,5=312,05$
+
+$s^2=\frac{{JK}_{residual}}{abn-ab}=\frac{{\sum_{i=1}^{20}y_{ijk}}^2/{JK}_{regresi(penuh)}}{20-4}=29,9$
+
+$F_{hitung}=\frac{{JK}_{regresi\left(hipotesis\right)}/(a-1)(b-1)}{s^2}=10,436$
+
+Titik kritis : $F_{\left(a-1\right)\left(b-1\right),\alpha bn-ab}=F_{\left(1,16\right)0,05}=4,494$
+
+Karena $F_{hittung}=10,436>F_{tabel}=4,494$ maka tolak $H_0$.
+
+Ini sesuai dengan tabel sebelumnya. 
+
+```{r}
+head(anova.tab, 7)
 ```
+
+### Kesimpulan 
+
+Tolak $H_0$. Artinya, faktor interaksi antara cairan biologis dan jenis kapsul berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5_%$.
 
 # Soal no 2
 
@@ -385,7 +413,48 @@ Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa pene
 >
 > $H_1$ : Metode belajar berpengaruh nyata terhadap nilai UAS
 
+### Penyelesaian
+
+```{r}
+data2 <- data.frame(
+  Metode = rep(c("konvensional","kinestetik","visual","autidori"), each=6) %>% 
+    as.factor(),
+  y = c(60, 68, 68, 67, 64, 62,
+        94, 90, 96, 91, 94, 90,
+        89, 82, 82, 85, 83, 83,
+        79, 74, 77, 76, 70, 76), 
+  x = c(65, 65, 65, 62, 62, 65,
+        66, 68, 64, 62, 61, 69, 
+        64, 67, 62, 60, 64, 67,
+        60, 70, 69, 67, 70, 65)
+)
+head(data2, 10)
+```
+
+```{r message=FALSE, warning=FALSE}
+install_load("car")
+ancova.model <- aov(y ~ Metode + x, data=data2)
+ancova_model <- Anova(ancova.model, type="III"); ancova_model
+```
+
+```{r}
+qf(1-0.05, 3, 19)
+```
+
+### Rata-rata perlakuan metode belajar
+
+```{r}
+sapply(levels(data2$Metode), function(value){
+ybar <- mean(data2$y[data2$Metode == value])
+xbar <- mean(data2$x[data2$Metode == value])
+mu.adj <- ybar - ancova.model$coefficients[5] * (xbar - round(mean(data2$x), 3 ))
+c(ybar = ybar, xbar = xbar, mu.adj = mu.adj)
+})
+```
+
 ### Kesimpulan
+
+Dengan nilai $F_{hitung} = 118.124 > F_{tabel} = 3.12735$ atau $p-value = 1.822\times10^{-12} < 0.05$. Maka, Tolak $H_0$. Artinya metode belajar memiliki pengaruh yang signifikan terhadap nilai UAS.
 
 ## Point (b)
 
@@ -403,14 +472,8 @@ Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa pene
 
 > Estimasikan rata-rata perlakuan metode belajar
 
-### Hipotesis
-
-> $H_0:{(\tau\beta)}_{ij}^\ast=0$
->
-> $H_1:{(\tau\beta)}_{ij}^\ast\neq0$
-
 ```{r}
-head(anova.tab, 7)
+
 ```
 
 **Persamaan dalam bentuk Matriks**

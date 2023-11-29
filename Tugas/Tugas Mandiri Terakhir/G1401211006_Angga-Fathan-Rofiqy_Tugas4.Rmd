@@ -265,6 +265,10 @@ cat("Fhit :", Fhit, "\nFtab :", qf(1 - 0.05, 1, 5-4) )
 
 Keputusan : $F_{hit}=0.6523<F_{tabel}=161.45$ maka tak tolak $H_0$
 
+### Kesimpulan 
+
+Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$.
+
 ## Point (c)
 
 > Ujilah **interaksi** antara Faktor 1 dan 2 menggunakan metode **reparameterisasi** pada taraf nyata $5\%$
@@ -273,9 +277,35 @@ Keputusan : $F_{hit}=0.6523<F_{tabel}=161.45$ maka tak tolak $H_0$
 
 Sebuah studi terkait metode belajar siswa dilakukan dengan perlakuan berupa penerapan 4 metode belajar yang berbeda yaitu konvensional, auditori, kinestetik, dan visual. Sementara respon berupa nilai ujian akhir semester (UAS) dari masing-masing siswa tersebut dan diberikan pula covariate berupa nilai ujian tengah semester (UTS). Berikut adalah datanya.
 
-### Kesimpulan 
+![](images/Screenshot 2023-11-30 034256.png){width="489"}
 
-Tak tolak $H_0$ (terima $H_0$). Artinya, faktor interaksi antara cairan biologis dan jenis kapsul tidak berpengaruh nyata terhadap waktu yang diperlukan agar kapsul larut pada taraf nyata $5\%$.
+## Point (a)
+
+> Ujilah Hipotesis pengaruh metode belajar terhadap nilai UAS pada taraf nyata $5\%$
+
+### Hipotesis
+
+> $H_0$ : Metode belajar tidak berpengaruh nyata terhadap nilai UAS
+>
+> $H_1$ : Metode belajar berpengaruh nyata terhadap nilai UAS
+
+### Kesimpulan
+
+## Point (b)
+
+> Ujilah Hipotesis pengaruh covariate pada model ANCOVA pada taraf nyata $5\%$
+
+### Hipotesis
+
+> $H_0$ : Nilai UTS (covariate) tidak berpengaruh nyata terhadap nilai UAS
+>
+> $H_1$ : Nilai UTS (covariate) berpengaruh nyata terhadap nilai UAS
+
+### Kesimpulan
+
+## Point (c)
+
+> Estimasikan rata-rata perlakuan metode belajar
 
 **Persamaan dalam bentuk Matriks**
 

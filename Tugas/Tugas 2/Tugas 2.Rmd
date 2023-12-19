@@ -240,27 +240,76 @@ Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} -26454.23
 
 ## b.) 
 
-> Tentukan penduga tititk untuk pembacaan kekakuan (*stiffness*) rata-rata ketika kepadatan (*density*) papan partikel adalah $10 \text{ lb}/ft^3$. Tentukan selang kepercayaan 95% pada pembacaan rata-rata ini.
+> Tentukan penduga tititk untuk pembacaan kekakuan (*stiffness*) **rata-rata** ketika kepadatan (*density*) papan partikel adalah $10 \text{ lb}/ft^3$. Tentukan selang kepercayaan 95% pada pembacaan **rata-rata** ini.
 
-Selang kepercayaan diperoleh dengan formula:
+Selang kepercayaan untuk penduga titik rata-rata diperoleh dengan formula:
 
 $$
 \mathbf{x}'_* \mathbf{b} \pm t_{(n-p, \frac{\alpha}{2} )} s\sqrt{ \mathbf{x}'_*  (\mathbf{X}'\mathbf{X})^{-1}   \mathbf{x}_*}
 $$
 
-### Penduga titik rata-rata ketika x1 = 10
-
-Konsep nya mirip dengan input data x1=10 pada model.
-
 ```{r}
-x.10 <- c(1, 10)
-tXb <- t(x.10) %*% b
-cat("Penduga titik rata-rata ketika x1=10 adalah", tXb)
-```
-
-### $t_{(n-p, \frac{\alpha}{2} )}$
-
-```{r}
+x.new <- c(1, 10)
+tXb <- t(x.new) %*% b
+s <- sqrt(s2)
 t.stat <- qt(1-0.05/2,n-p)
 
+selang <- t.stat * s * sqrt( t(x.new) %*% tXX.inv %*% x.new )
+
+cat("Penduga titik rata-rata ketika x1=10 (y duga) adalah", tXb)
+cat("\nSelang kepercayaan 95% nya adalah:\n",
+    "Batas Atas :", tXb + selang, 
+    "\n Batas Bawah :", tXb - selang)
+```
+
+Sehingga nilai dugaan selang kepercayaan 95% nya dimana $\hat{y}=12568.22$ adalah:
+
+$$
+5924.538 \le \hat{y} \le 19211.9 
+$$
+
+## c.) 
+
+> Tentukan penduga tititk untuk pembacaan kekakuan (*stiffness*) **papan partikel individu** yang kepadatan (*density*) papan partikel adalah $10 \text{ lb}/ft^3$. Tentukan selang kepercayaan 95% pada untuk **papan** seperti itu.
+
+Selang kepercayaan untuk penduga titik diperoleh dengan formula:
+
+$$
+\mathbf{x}'_* \mathbf{b} \pm t_{(n-p, \frac{\alpha}{2} )} s\sqrt{ 1+\mathbf{x}'_*  (\mathbf{X}'\mathbf{X})^{-1}   \mathbf{x}_*}
+$$
+
+```{r}
+x.new <- c(1, 10)
+tXb <- t(x.new) %*% b
+s <- sqrt(s2)
+t.stat <- qt(1-0.05/2,n-p)
+
+selang <- t.stat * s * sqrt(1+ t(x.new) %*% tXX.inv %*% x.new )
+
+cat("Penduga titik ketika x1=10 (y duga) adalah", tXb)
+cat("\nSelang kepercayaan 95% nya adalah:\n",
+    "Batas Atas :", tXb + selang, 
+    "\n Batas Bawah :", tXb - selang)
+```
+
+Sehingga nilai dugaan selang kepercayaan 95% nya dimana $\hat{y}=12568.22$ adalah:
+
+$$ -14588.56  \le \hat{y} \le 39725  $$
+
+## d.)
+
+> Tentukan selang kepercayaan 95% pada kemiringan garis regresi
+
+Kemiringan garis regresi berarti *slope* atau $\hat{\beta}_1$. Formula yang digunakan adalah:
+
+```{r}
+b1 <- beta[2]
+selangb1 <- qt(1-0.05/2,n-p)*sqrt(s2)*sqrt(invx[2,2])
+
+x.new <- c(1, 10)
+tXb <- t(x.new) %*% b
+s <- sqrt(s2)
+t.stat <- qt(1-0.05/2,n-p)
+
+selang <- t.stat * s * sqrt( t(x.new) %*% tXX.inv %*% x.new )
 ```

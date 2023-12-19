@@ -158,7 +158,6 @@ x2 <- c(7,3,2,4,6,5,3,3,4,3)
 y <- c(23,7,15,17,23,22,10,14,20,19) 
 x <- matrix(c(x0,x1,x2),10,3,F)
 n <- nrow(x) 
-p <- ncol(x)-1
 ```
 
 ## a.)
@@ -194,3 +193,16 @@ cat("Parameter duga b adalah\n"); b
 Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} 3.92 \\ 2.49 \\ -0.47 \end{bmatrix}$.
 
 ## c.) 
+
+> Hitung penduga tak bisa bagi ragam
+
+Penduga tak bias bagi ragam didapat menggunakan rumus sebagai berikut:
+
+$$
+s^2=\frac{(\mathbf{y}-\mathbf{X}'\mathbf{b})(\mathbf{y}-\mathbf{X}\mathbf{b})}{n-(k+1)}
+$$
+
+```{r}
+s2 <- t(y - x %*% b) %*% (y - x %*% b) / (n - k.1) 
+cat("Parameter duga b adalah\n")
+```

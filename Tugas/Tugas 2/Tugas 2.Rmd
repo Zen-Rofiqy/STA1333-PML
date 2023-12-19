@@ -1,0 +1,75 @@
+---
+title: "Tugas 2 PML"
+author: "Angga Fathan Rofiqy"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+always_allow_html: TRUE
+output:
+  officedown::rdocx_document:
+    tables:
+      style: Table
+      layout: autofit
+      width: 1.0
+      topcaption: true
+      tab.lp: 'tab:'
+      caption:
+        style: Table Caption
+        pre: 'Tabel '
+        sep: ': '
+        tnd: 0
+        tns: '-'
+        fp_text: !expr officer::fp_text_lite(bold = TRUE)
+    toc_depth: 3
+    page_size:
+      width: 8.3
+      height: 11.7
+      orient: "portrait"
+    page_margins:
+      #bottom: 1
+      #top: 1
+      #left: 1
+      #right:
+      header: 0.5
+      footer: 0.5
+      gutter: 0.5
+    reference_num: true
+---
+
+```{r, warning=FALSE, message = FALSE}
+#                      -=( Install & Load Package Function )=-
+install_load <- function (package1, ...)  {   
+
+   # convert arguments to vector
+   packages <- c(package1, ...)
+
+   # start loop to determine if each package is installed
+   for(package in packages){
+
+       # if package is installed locally, load
+       if(package %in% rownames(installed.packages()))
+          do.call('library', list(package))
+
+       # if package is not installed locally, download, then load
+       else {
+          install.packages(package)
+          do.call("library", list(package))
+       }
+   } 
+}
+
+#Path Function
+path <- function(){
+  gsub  ( "\\\\",  "/",  readClipboard ()  )
+}
+#Copy path, Panggil function di console
+#Copy r path, paste ke var yang diinginkan
+```
+
+# Soal 1
+
+![](images/Screenshot 2023-12-19 201916.png)
+
+## a.) 
+
+> Tunjukkan bahwa modle tersebut merupakan model penuh
+
+Suatu model dikatakan model penuh jika rank matriks tersebut sama dengan $k+1$.

@@ -183,3 +183,14 @@ Terlihat bahwa model merupakan model penuh karena $r(\mathbf{x})=3$ yang sama de
 ## b.)
 
 > Dugalah parameter tersebut
+
+Untuk menduga parameter, digunakan formula $\mathbf{b}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'y$.
+
+```{r}
+b <- solve(t(x) %*% x) %*% t(x) %*% y 
+cat("Parameter duga b adalah\n"); b
+```
+
+Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} 3.92 \\ 2.49 \\ -0.47 \end{bmatrix}$.
+
+## c.) 

@@ -187,7 +187,7 @@ Untuk menduga parameter, digunakan formula $\mathbf{b}=(\mathbf{X}'\mathbf{X})^{
 
 ```{r}
 b <- solve(t(X) %*% X) %*% t(X) %*% y 
-cat("Parameter duga b adalah\n"); b
+cat("Parameter duga beta adalah\n"); b
 ```
 
 Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} 3.92 \\ 2.49 \\ -0.47 \end{bmatrix}$.
@@ -219,7 +219,7 @@ Sehingga nilai $s^2=6.36$.
 
 ```{r}
 tXX <- matrix(c(30, 464.1, 464.1, 8166.26), 2,2,T) 
-inv.X <- solve(tXX)
+tXX.inv <- solve(tXX)
 tXy <- c(1017405, 19589339) 
 s2 <- 165242295.59
 n = 30 
@@ -231,3 +231,10 @@ p = 2
 > Dugalah $\beta$
 
 Untuk menduga parameter $\beta$, digunakan formula $\mathbf{b}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'y$.
+
+```{r}
+b <- tXX.inv %*% tXy
+cat("Parameter duga beta adalah\n"); b
+```
+
+Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} -26454.230 \\ 3902.245  \end{bmatrix}$.

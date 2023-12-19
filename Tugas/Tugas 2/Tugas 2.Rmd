@@ -156,8 +156,8 @@ x0 <- rep(1,10)
 x1 <- c(10,2,4,6,8,7,4,6,7,6) 
 x2 <- c(7,3,2,4,6,5,3,3,4,3)
 y <- c(23,7,15,17,23,22,10,14,20,19) 
-x <- matrix(c(x0,x1,x2),10,3,F)
-n <- nrow(x) 
+X <- matrix(c(x0,x1,x2),10,3,F)
+n <- nrow(X) 
 ```
 
 ## a.)
@@ -167,10 +167,10 @@ n <- nrow(x)
 Suatu model dikatakan model penuh jika rank matriks tersebut sama dengan $k+1$ atau $r(\mathbf{x})=k+1$.
 
 ```{r}
-r.x <- qr(x)$rank 
-k.1 <- ncol(x) 
-cat("r(x) =",r.x); cat("\nk+1 =",k.1)
-if(r.x==k.1){
+r.X <- qr(X)$rank 
+k.1 <- ncol(X) 
+cat("r(x) =",r.X); cat("\nk+1 =",k.1)
+if(r.X==k.1){
   cat("\nModel merupakan model penuh")
 } else{
   cat("\nModel bukan model penuh")
@@ -186,7 +186,7 @@ Terlihat bahwa model merupakan model penuh karena $r(\mathbf{x})=3$ yang sama de
 Untuk menduga parameter, digunakan formula $\mathbf{b}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'y$.
 
 ```{r}
-b <- solve(t(x) %*% x) %*% t(x) %*% y 
+b <- solve(t(X) %*% X) %*% t(X) %*% y 
 cat("Parameter duga b adalah\n"); b
 ```
 
@@ -203,7 +203,7 @@ s^2=\frac{(\mathbf{y}-\mathbf{X}'\mathbf{b})(\mathbf{y}-\mathbf{X}\mathbf{b})}{n
 $$
 
 ```{r}
-s2 <- t(y - x %*% b) %*% (y - x %*% b) / (n - k.1) 
+s2 <- t(y - X %*% b) %*% (y - X %*% b) / (n - k.1) 
 cat("Penduga tak bias bagi ragam (s^2) adalah", s2)
 ```
 
@@ -212,3 +212,22 @@ Sehingga nilai $s^2=6.36$.
 \newpage
 
 # Soal 2
+
+![](images/Screenshot 2023-12-19 205205.png)
+
+## Input data
+
+```{r}
+tXX <- matrix(c(30, 464.1, 464.1, 8166.26), 2,2,T) 
+inv.X <- solve(tXX)
+tXy <- c(1017405, 19589339) 
+s2 <- 165242295.59
+n = 30 
+p = 2
+```
+
+## a.) 
+
+> Dugalah $\beta$
+
+Untuk menduga parameter $\beta$, digunakan formula $\mathbf{b}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'y$.

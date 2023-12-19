@@ -242,7 +242,11 @@ Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} -26454.23
 
 > Tentukan penduga tititk untuk pembacaan kekakuan (*stiffness*) rata-rata ketika kepadatan (*density*) papan partikel adalah $10 \text{ lb}/ft^3$. Tentukan selang kepercayaan 95% pada pembacaan rata-rata ini.
 
-Untuk menjawab poin ini diperlukan beberapa tahap sebagai berikut:
+Selang kepercayaan diperoleh dengan formula:
+
+$$
+\mathbf{x}'_* \mathbf{b} \pm t_{(n-p, \frac{\alpha}{2} )} s\sqrt{ \mathbf{x}'_*  (\mathbf{X}'\mathbf{X})^{-1}   \mathbf{x}_*}
+$$
 
 ### Penduga titik rata-rata ketika x1 = 10
 
@@ -254,6 +258,9 @@ tXb <- t(x.10) %*% b
 cat("Penduga titik rata-rata ketika x1=10 adalah", tXb)
 ```
 
-Didapat $\mathbf{X}'_*\mathbf{b}=12568.22$.
+### $t_{(n-p, \frac{\alpha}{2} )}$
 
-### Simpangan baku
+```{r}
+t.stat <- qt(1-0.05/2,n-p)
+
+```

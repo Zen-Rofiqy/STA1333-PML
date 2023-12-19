@@ -34,7 +34,14 @@ output:
     reference_num: true
 ---
 
-```{r, warning=FALSE, message = FALSE}
+```{=html}
+<style>
+.centered-text {
+  text-align: center;
+}
+</style>
+```
+```{r setup, warning=FALSE, include=FALSE, message = FALSE}
 #                      -=( Install & Load Package Function )=-
 install_load <- function (package1, ...)  {   
 
@@ -56,19 +63,105 @@ install_load <- function (package1, ...)  {
    } 
 }
 
-#Path Function
-path <- function(){
-  gsub  ( "\\\\",  "/",  readClipboard ()  )
-}
-#Copy path, Panggil function di console
-#Copy r path, paste ke var yang diinginkan
+install_load('officedown','officer','tidyverse')
+
+knitr::opts_chunk$set(
+  echo=FALSE,
+  #Table Captioning
+  tab.cap.style="Table Caption",
+  tab.cap.pre="Tabel ",
+  tab.cap.sep=": ",
+  #Figure Captioning
+  fig.cap.style="Image Caption",
+  fig.cap.pre="Figure ",
+  fig.cap.sep=": "
+)
+
+rdocx_document(
+  base_format = "rmarkdown::word_document",
+  reference_num = FALSE
+)
 ```
+
+$$
+\text{ }
+$$
+
+$$
+\text{ }
+$$
+
+$$
+\text{ }
+$$
+
+$$
+\text{ }
+$$
+
+![](images/ipb-01.png){width="729"}
+
+$$
+\text{ }
+$$
+
+$$
+\text{ }
+$$
+
+$\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }\text{ }$
+
+$$
+\text{ }
+$$
+
+$$
+\text{ }
+$$
+
+$$
+\textbf{DEPARTEMEN STATISTIKA DAN SAINS DATA}
+$$
+
+$$
+\textbf{FAKULTAS ILMU PENGETAHUAN ALAM}
+$$
+
+$$
+\textbf{IPB UNIVERSITY}
+$$
+
+$$
+\textbf{2023}
+$$
+
+\newpage
+
+## Daftar Isi
+
+```{r, echo=FALSE}
+block_toc()
+```
+
+\newpage
 
 # Soal 1
 
-![](images/Screenshot 2023-12-19 201916.png)
+![](images/Screenshot%202023-12-19%20201916.png)
 
-## a.) 
+## Input data
+
+```{r}
+x0 <- rep(1,10)
+x1 <- c(10,2,4,6,8,7,4,6,7,6) 
+x2 <- c(7,3,2,4,6,5,3,3,4,3)
+y <- c(23,7,15,17,23,22,10,14,20,19) 
+x <- matrix(c(x0,x1,x2),10,3,F)
+n <- nrow(x) 
+p <- ncol(x)-1
+```
+
+## a.)
 
 > Tunjukkan bahwa modle tersebut merupakan model penuh
 

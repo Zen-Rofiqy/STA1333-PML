@@ -1,7 +1,6 @@
 ---
 title: "Tugas 2 PML"
 author: "Angga Fathan Rofiqy"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: TRUE
 output:
   officedown::rdocx_document:
@@ -238,3 +237,7 @@ cat("Parameter duga beta adalah\n"); b
 ```
 
 Sehingga matriks parameter duga nya adalah $\mathbf{b}=\begin{bmatrix} -26454.230 \\ 3902.245  \end{bmatrix}$.
+
+## b.) 
+
+> Tentukan penduga titik

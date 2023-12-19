@@ -204,5 +204,11 @@ $$
 
 ```{r}
 s2 <- t(y - x %*% b) %*% (y - x %*% b) / (n - k.1) 
-cat("Parameter duga b adalah\n")
+cat("Penduga tak bias bagi ragam (s^2) adalah", s2)
 ```
+
+Sehingga nilai $s^2=6.36$.
+
+\newpage
+
+# Soal 2
